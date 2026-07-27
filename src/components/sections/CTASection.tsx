@@ -1,12 +1,8 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import MagneticButton from "@/components/ui/MagneticButton";
-
-const StoryCanvas = dynamic(() => import("@/components/three/StoryCanvas"), {
-  ssr: false,
-});
+import LazyBackgroundVideo from "@/components/effects/LazyBackgroundVideo";
 
 export default function CTASection() {
   return (
@@ -15,16 +11,43 @@ export default function CTASection() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-deep-space"
       aria-label="Call to Action"
     >
-      {/* 3D QuantumCore reprise — bookends the journey */}
-      <StoryCanvas scrollProgress={0.7} />
+      {/* Background aurora ambient light glow */}
+      <div className="absolute inset-0 aurora-bg opacity-40 pointer-events-none" />
 
-      {/* Radial vignette */}
-      <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(9,9,11,0.85)_100%)] pointer-events-none" />
+      {/* Atmospheric video layer */}
+      <LazyBackgroundVideo
+        src="/14492116_1920_1080_30fps.mp4"
+        className="opacity-30"
+      />
+
+      {/* Animated glowing ambient orbs */}
+      <motion.div
+        className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full blur-[140px] opacity-20 pointer-events-none"
+        style={{ background: "radial-gradient(circle, var(--teal), transparent)" }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.15, 0.25, 0.15],
+        }}
+        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+      />
+
+      <motion.div
+        className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full blur-[120px] opacity-15 pointer-events-none"
+        style={{ background: "radial-gradient(circle, var(--electric-blue), transparent)" }}
+        animate={{
+          scale: [1, 1.15, 1],
+          opacity: [0.1, 0.2, 0.1],
+        }}
+        transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
+      />
+
+      {/* Vignette */}
+      <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(9,9,11,0.9)_100%)] pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.span
-          className="text-teal/60 text-xs font-mono font-semibold tracking-[0.3em] uppercase block mb-10"
+          className="text-teal text-xs font-mono font-semibold tracking-[0.3em] uppercase block mb-10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -48,14 +71,14 @@ export default function CTASection() {
         </motion.h2>
 
         <motion.p
-          className="text-white/40 text-base sm:text-lg max-w-lg mx-auto mb-14 font-light"
+          className="text-white/50 text-base sm:text-lg max-w-lg mx-auto mb-14 font-light"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.8 }}
         >
           Whether you&apos;re starting from scratch or scaling to millions, our
-          engineers are ready.
+          engineers are ready to bring your vision to life.
         </motion.p>
 
         {/* Single CTA */}
