@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const PARTICLE_COUNT = 180;
+const PARTICLE_COUNT = 150;
 const CONNECTION_DISTANCE = 2.2;
 const SPREAD = 8;
 
@@ -28,8 +28,8 @@ export default function NeuralNetwork() {
     return { positions: pos, velocities: vel };
   }, []);
 
-  // Pre-allocate line positions buffer (max connections)
-  const maxConnections = PARTICLE_COUNT * 6;
+  // Pre-allocate line buffers (max possible connections)
+  const maxConnections = PARTICLE_COUNT * 5;
   const linePositions = useMemo(
     () => new Float32Array(maxConnections * 6),
     [maxConnections]
@@ -64,16 +64,14 @@ export default function NeuralNetwork() {
     return colors;
   }, []);
 
-  // Track mouse
-  useMemo(() => {
-    if (typeof window !== "undefined") {
-      const handleMouse = (e: MouseEvent) => {
-        mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
-        mouseRef.current.y = -(e.clientY / window.innerHeight - 0.5) * 2;
-      };
-      window.addEventListener("mousemove", handleMouse);
-      return () => window.removeEventListener("mousemove", handleMouse);
-    }
+  // Mouse tracking side-effect inside useEffect
+  useEffect(() => {
+    const handleMouse = (e: MouseEvent) => {
+      mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseRef.current.y = -(e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    window.addEventListener("mousemove", handleMouse, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouse);
   }, []);
 
   useFrame((state) => {
@@ -119,41 +117,34 @@ export default function NeuralNetwork() {
 
         if (dist < CONNECTION_DISTANCE && lineIndex < maxConnections) {
           const alpha = 1 - dist / CONNECTION_DISTANCE;
-          linePositions[lineIndex * 6] = posArray[i * 3];
-          linePositions[lineIndex * 6 + 1] = posArray[i * 3 + 1];
-          linePositions[lineIndex * 6 + 2] = posArray[i * 3 + 2];
-          linePositions[lineIndex * 6 + 3] = posArray[j * 3];
-          linePositions[lineIndex * 6 + 4] = posArray[j * 3 + 1];
-          linePositions[lineIndex * 6 + 5] = posArray[j * 3 + 2];
+          const l6 = lineIndex * 6;
+          linePositions[l6] = posArray[i * 3];
+          linePositions[l6 + 1] = posArray[i * 3 + 1];
+          linePositions[l6 + 2] = posArray[i * 3 + 2];
+          linePositions[l6 + 3] = posArray[j * 3];
+          linePositions[l6 + 4] = posArray[j * 3 + 1];
+          linePositions[l6 + 5] = posArray[j * 3 + 2];
 
-          // Teal-cyan color for connections
-          lineColors[lineIndex * 6] = 0.08 * alpha;
-          lineColors[lineIndex * 6 + 1] = 0.72 * alpha;
-          lineColors[lineIndex * 6 + 2] = 0.65 * alpha;
-          lineColors[lineIndex * 6 + 3] = 0.02 * alpha;
-          lineColors[lineIndex * 6 + 4] = 0.71 * alpha;
-          lineColors[lineIndex * 6 + 5] = 0.83 * alpha;
+          // Teal-cyan connection colors
+          lineColors[l6] = 0.08 * alpha;
+          lineColors[l6 + 1] = 0.72 * alpha;
+          lineColors[l6 + 2] = 0.65 * alpha;
+          lineColors[l6 + 3] = 0.02 * alpha;
+          lineColors[l6 + 4] = 0.71 * alpha;
+          lineColors[l6 + 5] = 0.83 * alpha;
 
           lineIndex++;
         }
       }
     }
 
-    // Update line geometry
+    // Zero-allocation buffer update
     const lineGeo = linesRef.current.geometry;
-    lineGeo.setAttribute(
-      "position",
-      new THREE.BufferAttribute(linePositions.slice(0, lineIndex * 6), 3)
-    );
-    lineGeo.setAttribute(
-      "color",
-      new THREE.BufferAttribute(lineColors.slice(0, lineIndex * 6), 3)
-    );
     lineGeo.setDrawRange(0, lineIndex * 2);
     lineGeo.attributes.position.needsUpdate = true;
     lineGeo.attributes.color.needsUpdate = true;
 
-    // Subtle rotation
+    // Subtle group rotation
     pointsRef.current.rotation.y = time * 0.03;
     linesRef.current.rotation.y = time * 0.03;
   });
@@ -185,7 +176,16 @@ export default function NeuralNetwork() {
 
       {/* Connections / Lines */}
       <lineSegments ref={linesRef}>
-        <bufferGeometry />
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            args={[linePositions, 3]}
+          />
+          <bufferAttribute
+            attach="attributes-color"
+            args={[lineColors, 3]}
+          />
+        </bufferGeometry>
         <lineBasicMaterial
           vertexColors
           transparent

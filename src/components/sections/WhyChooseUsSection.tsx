@@ -1,47 +1,55 @@
 "use client";
 
 import { motion } from "framer-motion";
+import {
+  Bot,
+  Layers,
+  Clock,
+  Rocket,
+  Lock,
+  Network,
+} from "lucide-react";
 import GlassCard from "@/components/ui/GlassCard";
 import TextReveal from "@/components/ui/TextReveal";
 
 const REASONS = [
   {
-    icon: "🧠",
+    icon: Bot,
     title: "AI-First Thinking",
     description:
       "Every solution we build starts with intelligence at its core. We don't add AI as an afterthought — it's the foundation.",
     gradient: "from-teal to-cyan",
   },
   {
-    icon: "🏗️",
+    icon: Layers,
     title: "Enterprise-Grade Engineering",
     description:
       "Battle-tested architectures that scale to millions. We build for resilience, performance, and long-term maintainability.",
     gradient: "from-electric-blue to-violet",
   },
   {
-    icon: "🌍",
+    icon: Clock,
     title: "24×7 Global Support",
     description:
       "Round-the-clock monitoring and dedicated support teams. Your systems never sleep, and neither do we.",
     gradient: "from-violet to-teal",
   },
   {
-    icon: "🚀",
+    icon: Rocket,
     title: "End-to-End Delivery",
     description:
       "From strategy and design to deployment and optimization. One team, one vision, complete accountability.",
     gradient: "from-cyan to-electric-blue",
   },
   {
-    icon: "🔒",
+    icon: Lock,
     title: "Security by Design",
     description:
       "Zero-trust architecture, compliance-first development, and continuous security auditing baked into every sprint.",
     gradient: "from-teal to-violet",
   },
   {
-    icon: "🔮",
+    icon: Network,
     title: "Future-Proof Architecture",
     description:
       "We build on open standards and emerging technologies, ensuring your investment stays relevant for years to come.",
@@ -61,7 +69,10 @@ const itemVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+    transition: {
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+    },
   },
 };
 
@@ -100,31 +111,36 @@ export default function WhyChooseUsSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {REASONS.map((reason) => (
-            <motion.div key={reason.title} variants={itemVariants} className="group">
-              <GlassCard className="h-full">
-                {/* Icon */}
-                <div className="text-3xl mb-4">{reason.icon}</div>
+          {REASONS.map((reason) => {
+            const Icon = reason.icon;
+            return (
+              <motion.div key={reason.title} variants={itemVariants} className="group">
+                <GlassCard className="h-full">
+                  {/* Icon */}
+                  <div className="w-12 h-12 rounded-xl bg-teal/10 border border-teal/20 flex items-center justify-center text-teal mb-5 group-hover:scale-110 group-hover:bg-teal/20 transition-all duration-300">
+                    <Icon className="w-6 h-6" />
+                  </div>
 
-                {/* Title */}
-                <h3 className="text-white text-xl font-bold mb-3">
-                  {reason.title}
-                </h3>
+                  {/* Title */}
+                  <h3 className="text-white text-xl font-bold mb-3">
+                    {reason.title}
+                  </h3>
 
-                {/* Description */}
-                <p className="text-muted text-sm leading-relaxed">
-                  {reason.description}
-                </p>
+                  {/* Description */}
+                  <p className="text-muted text-sm leading-relaxed">
+                    {reason.description}
+                  </p>
 
-                {/* Bottom gradient line */}
-                <div className="mt-6 pt-4 border-t border-white/5">
-                  <div
-                    className={`h-0.5 w-0 group-hover:w-full bg-gradient-to-r ${reason.gradient} transition-all duration-700 rounded-full`}
-                  />
-                </div>
-              </GlassCard>
-            </motion.div>
-          ))}
+                  {/* Bottom gradient line */}
+                  <div className="mt-6 pt-4 border-t border-white/5">
+                    <div
+                      className={`h-0.5 w-0 group-hover:w-full bg-gradient-to-r ${reason.gradient} transition-all duration-700 rounded-full`}
+                    />
+                  </div>
+                </GlassCard>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

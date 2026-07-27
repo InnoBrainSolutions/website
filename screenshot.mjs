@@ -4,10 +4,10 @@ import { chromium } from 'playwright';
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   
-  await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+  await page.goto('http://localhost:3000', { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(2000);
   
-  // Slowly scroll down the page to trigger all GSAP ScrollTrigger and Framer Motion in-view animations
+  // Slowly scroll down the page to trigger all animations
   const totalHeight = await page.evaluate(() => document.body.scrollHeight);
   const step = 400;
   for (let y = 0; y < totalHeight; y += step) {
@@ -25,7 +25,7 @@ import { chromium } from 'playwright';
     fullPage: true,
   });
   
-  console.log('✅ Full page screenshot with rendered animations saved to: ./full-page-screenshot.png');
+  console.log('✅ Full page screenshot saved to: ./full-page-screenshot.png');
   
   await browser.close();
 })();

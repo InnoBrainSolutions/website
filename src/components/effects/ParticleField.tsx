@@ -20,7 +20,7 @@ const COLORS = [
 ];
 
 export default function ParticleField({
-  particleCount = 60,
+  particleCount = 50,
   className = "",
 }: {
   particleCount?: number;
@@ -29,6 +29,7 @@ export default function ParticleField({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>(0);
+  const isVisibleRef = useRef<boolean>(true);
 
   const initParticles = useCallback(
     (width: number, height: number) => {
@@ -50,6 +51,11 @@ export default function ParticleField({
   );
 
   useEffect(() => {
+    // Respect prefers-reduced-motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -68,26 +74,36 @@ export default function ParticleField({
     };
 
     resize();
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", resize, { passive: true });
+
+    // Pause animation when canvas is scrolled off-screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
 
     const animate = () => {
-      if (!ctx || !canvas) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (isVisibleRef.current && ctx && canvas) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      particlesRef.current.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
+        particlesRef.current.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
 
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+          if (p.x < 0) p.x = canvas.width;
+          if (p.x > canvas.width) p.x = 0;
+          if (p.y < 0) p.y = canvas.height;
+          if (p.y > canvas.height) p.y = 0;
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `${p.color} ${p.opacity})`;
-        ctx.fill();
-      });
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `${p.color} ${p.opacity})`;
+          ctx.fill();
+        });
+      }
 
       animationRef.current = requestAnimationFrame(animate);
     };
@@ -96,6 +112,7 @@ export default function ParticleField({
 
     return () => {
       window.removeEventListener("resize", resize);
+      observer.disconnect();
       cancelAnimationFrame(animationRef.current);
     };
   }, [initParticles]);

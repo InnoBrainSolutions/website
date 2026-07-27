@@ -1,50 +1,68 @@
 "use client";
 
 import { motion } from "framer-motion";
+import {
+  Brain,
+  Cloud,
+  ShieldCheck,
+  Cpu,
+  Globe,
+  Smartphone,
+  Sparkles,
+  Zap,
+} from "lucide-react";
 import GlassCard from "@/components/ui/GlassCard";
 import TextReveal from "@/components/ui/TextReveal";
 import GridBackground from "@/components/effects/GridBackground";
 
 const SERVICES = [
   {
-    icon: "🧠",
+    icon: Brain,
     title: "AI Development",
-    description: "Custom AI models, LLM integration, and intelligent automation that transforms your business processes.",
+    description:
+      "Custom AI models, LLM integration, and intelligent automation that transforms your business processes.",
   },
   {
-    icon: "☁️",
+    icon: Cloud,
     title: "Cloud Engineering",
-    description: "Scalable, resilient cloud architecture on AWS, Azure, and GCP with infrastructure as code.",
+    description:
+      "Scalable, resilient cloud architecture on AWS, Azure, and GCP with infrastructure as code.",
   },
   {
-    icon: "🛡️",
+    icon: ShieldCheck,
     title: "Cyber Security",
-    description: "Enterprise-grade security solutions, penetration testing, and compliance frameworks.",
+    description:
+      "Enterprise-grade security solutions, penetration testing, and compliance frameworks.",
   },
   {
-    icon: "⚙️",
+    icon: Cpu,
     title: "DevOps Solutions",
-    description: "CI/CD pipelines, containerization, and automated deployment workflows that accelerate delivery.",
+    description:
+      "CI/CD pipelines, containerization, and automated deployment workflows that accelerate delivery.",
   },
   {
-    icon: "🌐",
+    icon: Globe,
     title: "Web Applications",
-    description: "Modern, performant web platforms built with React, Next.js, and cutting-edge technologies.",
+    description:
+      "Modern, performant web platforms built with React, Next.js, and cutting-edge technologies.",
   },
   {
-    icon: "📱",
+    icon: Smartphone,
     title: "Mobile Applications",
-    description: "Native and cross-platform mobile experiences with Flutter and React Native.",
+    description:
+      "Native and cross-platform mobile experiences with Flutter and React Native.",
   },
   {
-    icon: "📊",
+    icon: Sparkles,
     title: "Machine Learning",
-    description: "Predictive analytics, computer vision, NLP, and deep learning solutions at scale.",
+    description:
+      "Predictive analytics, computer vision, NLP, and deep learning solutions at scale.",
   },
   {
-    icon: "🤖",
+    icon: Zap,
     title: "Automation",
-    description: "End-to-end workflow automation, RPA, and intelligent process optimization.",
+    description:
+      "End-to-end workflow automation, RPA, and intelligent process optimization.",
   },
 ];
 
@@ -118,19 +136,24 @@ export default function ServicesSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {SERVICES.map((service) => (
-            <motion.div key={service.title} variants={itemVariants} className="group">
-              <GlassCard className="h-full hover:scale-[1.02] transition-transform duration-300">
-                <div className="text-3xl mb-4">{service.icon}</div>
-                <h3 className="text-white font-semibold text-lg mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-muted text-sm leading-relaxed">
-                  {service.description}
-                </p>
-              </GlassCard>
-            </motion.div>
-          ))}
+          {SERVICES.map((service) => {
+            const Icon = service.icon;
+            return (
+              <motion.div key={service.title} variants={itemVariants} className="group">
+                <GlassCard className="h-full hover:scale-[1.02] transition-transform duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-teal/10 border border-teal/20 flex items-center justify-center text-teal mb-5 group-hover:scale-110 group-hover:bg-teal/20 transition-all duration-300">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-white font-semibold text-lg mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-muted text-sm leading-relaxed">
+                    {service.description}
+                  </p>
+                </GlassCard>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

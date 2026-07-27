@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { ArrowDown } from "lucide-react";
 import GlassCard from "@/components/ui/GlassCard";
 import TextReveal from "@/components/ui/TextReveal";
 
@@ -101,11 +102,11 @@ export default function CaseStudiesSection() {
                   </div>
                   <div className="flex justify-center">
                     <motion.div
-                      className="text-teal text-lg"
+                      className="text-teal"
                       animate={{ y: [0, 4, 0] }}
                       transition={{ repeat: Infinity, duration: 1.5 }}
                     >
-                      ↓
+                      <ArrowDown className="w-4 h-4" />
                     </motion.div>
                   </div>
                   <div className="flex items-start gap-3">

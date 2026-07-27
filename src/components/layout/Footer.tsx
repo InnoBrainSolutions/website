@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Globe, Share2, Code2, Video, MessageSquare } from "lucide-react";
 import ParticleField from "@/components/effects/ParticleField";
 
 const FOOTER_LINKS = {
@@ -17,10 +18,10 @@ const FOOTER_LINKS = {
 };
 
 const SOCIALS = [
-  { name: "LinkedIn", icon: "in", href: "#" },
-  { name: "Twitter", icon: "𝕏", href: "#" },
-  { name: "GitHub", icon: "GH", href: "#" },
-  { name: "YouTube", icon: "▶", href: "#" },
+  { name: "LinkedIn", icon: Globe, href: "#" },
+  { name: "Twitter", icon: Share2, href: "#" },
+  { name: "GitHub", icon: Code2, href: "#" },
+  { name: "YouTube", icon: Video, href: "#" },
 ];
 
 export default function Footer() {
@@ -70,17 +71,20 @@ export default function Footer() {
 
             {/* Socials */}
             <div className="flex gap-3">
-              {SOCIALS.map((social) => (
-                <motion.a
-                  key={social.name}
-                  href={social.href}
-                  className="w-10 h-10 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center text-muted text-xs font-mono hover:bg-teal/10 hover:border-teal/20 hover:text-teal transition-all duration-300"
-                  whileHover={{ y: -2 }}
-                  aria-label={social.name}
-                >
-                  {social.icon}
-                </motion.a>
-              ))}
+              {SOCIALS.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <motion.a
+                    key={social.name}
+                    href={social.href}
+                    className="w-10 h-10 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center text-muted hover:bg-teal/10 hover:border-teal/20 hover:text-teal transition-all duration-300"
+                    whileHover={{ y: -2 }}
+                    aria-label={social.name}
+                  >
+                    <Icon className="w-4 h-4" />
+                  </motion.a>
+                );
+              })}
             </div>
           </div>
 
@@ -123,17 +127,12 @@ export default function Footer() {
 
       {/* AI Chat Bubble */}
       <motion.button
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-teal to-electric-blue flex items-center justify-center shadow-[0_0_30px_rgba(20,184,166,0.3)] cursor-pointer"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-teal to-electric-blue flex items-center justify-center shadow-[0_0_30px_rgba(20,184,166,0.3)] cursor-pointer text-white"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         aria-label="Open AI Assistant"
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          <circle cx="9" cy="10" r="1" fill="white" />
-          <circle cx="12" cy="10" r="1" fill="white" />
-          <circle cx="15" cy="10" r="1" fill="white" />
-        </svg>
+        <MessageSquare className="w-6 h-6" />
       </motion.button>
     </footer>
   );

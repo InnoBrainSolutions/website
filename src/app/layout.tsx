@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
@@ -15,8 +15,18 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#09090B",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://innobrain.in"),
+  alternates: {
+    canonical: "https://innobrain.in",
+  },
   title: {
     default: "InnoBrain IT & AI Services | Engineering Intelligence. Building Tomorrow.",
     template: "%s | InnoBrain",

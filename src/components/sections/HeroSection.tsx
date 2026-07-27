@@ -1,14 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import TextReveal from "@/components/ui/TextReveal";
 import MagneticButton from "@/components/ui/MagneticButton";
-
-const HeroCanvas = dynamic(() => import("@/components/three/HeroCanvas"), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0 aurora-bg" />,
-});
+import LazyBackgroundVideo from "@/components/effects/LazyBackgroundVideo";
 
 const SERVICE_TAGS = [
   "AI Solutions",
@@ -22,26 +17,18 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-deep-space"
       aria-label="Hero"
     >
-      {/* Background Video */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-[0] opacity-35 mix-blend-screen pointer-events-none"
-      >
-        <source src="/12421439_3840_2160_30fps.mp4" type="video/mp4" />
-      </video>
+      {/* Fast, Instant Autoplay Background Video */}
+      <LazyBackgroundVideo
+        src="/14492116_1920_1080_30fps.mp4"
+        className="opacity-75"
+      />
 
-      {/* 3D Background */}
-      <HeroCanvas />
-
-      {/* Gradient overlays for depth */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-transparent via-transparent to-deep-space pointer-events-none" />
-      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-transparent via-transparent to-deep-space/50 pointer-events-none" />
+      {/* Vignette / gradient overlays for optimal text legibility */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-deep-space/70 via-transparent to-deep-space pointer-events-none" />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-deep-space/50 via-transparent to-deep-space/50 pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
@@ -52,7 +39,7 @@ export default function HeroSection() {
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="mb-8"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide border border-teal/20 bg-teal/5 text-teal">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide border border-teal/30 bg-deep-space/60 backdrop-blur-md text-teal">
             <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse-glow" />
             Where Intelligence Meets Innovation
           </span>
@@ -61,7 +48,7 @@ export default function HeroSection() {
         {/* Main heading */}
         <h1 className="mb-6">
           <motion.span
-            className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-tighter text-white mb-4"
+            className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-tighter text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)] mb-4"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -69,14 +56,14 @@ export default function HeroSection() {
             INNOBRAIN
           </motion.span>
           <TextReveal
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight glow-text"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight glow-text drop-shadow-md"
             delay={0.7}
             stagger={0.08}
           >
             Engineering Intelligence.
           </TextReveal>
           <TextReveal
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight glow-text mt-2"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight glow-text mt-2 drop-shadow-md"
             delay={1.0}
             stagger={0.08}
           >
@@ -94,11 +81,11 @@ export default function HeroSection() {
           {SERVICE_TAGS.map((tag, i) => (
             <span
               key={tag}
-              className="text-muted/70 text-xs sm:text-sm font-medium"
+              className="text-white/80 text-xs sm:text-sm font-medium drop-shadow-sm"
             >
               {tag}
               {i < SERVICE_TAGS.length - 1 && (
-                <span className="ml-2 sm:ml-3 text-teal/40">•</span>
+                <span className="ml-2 sm:ml-3 text-teal/60">•</span>
               )}
             </span>
           ))}
@@ -127,11 +114,11 @@ export default function HeroSection() {
           transition={{ delay: 2.2, duration: 0.6 }}
         >
           <motion.div
-            className="w-6 h-10 rounded-full border border-white/15 flex justify-center pt-2"
+            className="w-6 h-10 rounded-full border border-white/25 bg-black/20 backdrop-blur-sm flex justify-center pt-2"
             animate={{ y: [0, 6, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           >
-            <div className="w-1 h-2 rounded-full bg-teal/60" />
+            <div className="w-1 h-2 rounded-full bg-teal" />
           </motion.div>
         </motion.div>
       </div>

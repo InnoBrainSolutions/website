@@ -111,6 +111,9 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(20, 184, 166, 0.1);
   border-radius: var(--radius-lg);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
   transition: border-color var(--duration-normal) var(--ease-out),
               box-shadow var(--duration-normal) var(--ease-out),
               transform var(--duration-normal) var(--ease-out);
