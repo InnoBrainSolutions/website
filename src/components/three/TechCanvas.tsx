@@ -2,15 +2,19 @@
 
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import OrbitalRing from "./OrbitalRing";
+import TechNetwork, { TechNode } from "./OrbitalRing";
 
-export default function TechCanvas() {
+export default function TechCanvas({
+  onSelectNode,
+}: {
+  onSelectNode: (node: TechNode | null) => void;
+}) {
   return (
-    <div className="w-full h-[60vh] lg:h-[70vh]">
+    <div className="w-full h-[65vh] lg:h-[75vh]">
       <Suspense fallback={null}>
         <Canvas
-          camera={{ position: [0, 2, 6], fov: 50 }}
-          dpr={[1, 1.5]}
+          camera={{ position: [0, 0, 7.5], fov: 48 }}
+          dpr={[1, 2]}
           gl={{
             antialias: true,
             alpha: true,
@@ -18,10 +22,10 @@ export default function TechCanvas() {
           }}
           style={{ background: "transparent" }}
         >
-          <ambientLight intensity={0.3} />
-          <pointLight position={[5, 5, 5]} intensity={0.6} color="#14B8A6" />
-          <pointLight position={[-5, -3, -5]} intensity={0.3} color="#3B82F6" />
-          <OrbitalRing />
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} intensity={0.8} color="#14B8A6" />
+          <pointLight position={[-10, -10, -5]} intensity={0.5} color="#3B82F6" />
+          <TechNetwork onSelectNode={onSelectNode} />
         </Canvas>
       </Suspense>
     </div>
