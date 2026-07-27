@@ -1,23 +1,42 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Globe, Share2, Code2, Video, MessageSquare } from "lucide-react";
-import ParticleField from "@/components/effects/ParticleField";
+import { Globe, Share2, Code2, Video, ArrowUpRight } from "lucide-react";
 
-const FOOTER_LINKS = {
-  Services: [
-    "AI Development",
-    "Cloud Engineering",
-    "Cyber Security",
-    "DevOps Solutions",
-    "Web Applications",
-    "Mobile Applications",
-  ],
-  Company: ["About Us", "Careers", "Blog", "Case Studies", "Contact"],
-  Resources: ["Documentation", "API Reference", "Support", "Community", "Partners"],
-};
+const FOOTER_NAV = [
+  {
+    title: "SOLUTIONS",
+    links: [
+      { label: "AI Development", href: "/solutions/ai" },
+      { label: "Software Engineering", href: "/solutions/software" },
+      { label: "Cloud & DevOps", href: "/solutions/cloud" },
+      { label: "Cybersecurity", href: "/solutions/cybersecurity" },
+      { label: "Intelligent Automation", href: "/solutions/automation" },
+    ],
+  },
+  {
+    title: "INDUSTRIES",
+    links: [
+      { label: "Healthcare AI", href: "/industries/healthcare" },
+      { label: "FinTech Cloud", href: "/industries/fintech" },
+      { label: "E-Commerce ML", href: "/industries/retail" },
+      { label: "Smart Manufacturing", href: "/industries/manufacturing" },
+      { label: "Startups & Scaleups", href: "/industries/startups" },
+    ],
+  },
+  {
+    title: "COMPANY",
+    links: [
+      { label: "Our Story & Vision", href: "/company/vision" },
+      { label: "Case Studies", href: "/work/cases" },
+      { label: "Insights & Research", href: "/insights/research" },
+      { label: "Careers", href: "/company/careers" },
+      { label: "Contact Us", href: "/contact" },
+    ],
+  },
+];
 
-const SOCIALS = [
+const SOCIAL_LINKS = [
   { name: "LinkedIn", icon: Globe, href: "#" },
   { name: "Twitter", icon: Share2, href: "#" },
   { name: "GitHub", icon: Code2, href: "#" },
@@ -26,80 +45,66 @@ const SOCIALS = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-deep-space border-t border-white/5 overflow-hidden">
-      {/* Top gradient border */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal/30 to-transparent" />
+    <footer className="relative bg-deep-space border-t border-white/[0.08] overflow-hidden text-white">
+      {/* Accent Gradient Top Bar */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal/40 to-transparent" />
 
-      {/* Particle background */}
-      <ParticleField particleCount={30} />
-
-      <div className="container-custom relative z-10">
-        {/* Main footer content */}
-        <div className="py-16 lg:py-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
-          {/* Brand column */}
-          <div className="lg:col-span-4">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-teal to-electric-blue flex items-center justify-center">
-                <span className="text-white font-bold text-sm">iB</span>
-              </div>
-              <span className="text-white font-bold text-xl tracking-tight">
-                INNOBRAIN
+      <div className="container-custom relative z-10 pt-16 pb-12 lg:pt-20 lg:pb-14">
+        {/* Main 4-Column Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 pb-16 border-b border-white/[0.06]">
+          {/* Brand Column (2 cols wide on desktop) */}
+          <div className="lg:col-span-2 space-y-6">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl font-extrabold tracking-tighter text-white">
+                INNO<span className="text-teal">BRAIN</span>
               </span>
             </div>
-            <p className="text-muted text-sm leading-relaxed mb-8 max-w-sm">
+
+            <p className="text-white/50 text-sm leading-relaxed max-w-sm font-light">
               Engineering intelligence. Building tomorrow. We help enterprises
-              transform through AI, cloud, and modern software engineering.
+              architect and scale AI-first systems.
             </p>
 
-            {/* Newsletter */}
-            <div className="mb-8">
-              <p className="text-white text-sm font-medium mb-3">
-                Stay ahead of the curve
-              </p>
-              <div className="flex gap-2">
+            {/* Newsletter Subscription */}
+            <div className="max-w-sm pt-2">
+              <span className="text-white/70 text-xs font-mono tracking-wider uppercase block mb-3">
+                Join the AI Engineering Digest
+              </span>
+              <form
+                onSubmit={(e) => e.preventDefault()}
+                className="flex gap-2"
+              >
                 <input
                   type="email"
-                  placeholder="your@email.com"
-                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-muted/50 focus:outline-none focus:border-teal/40 transition-colors"
-                  aria-label="Email for newsletter"
+                  placeholder="Enter work email"
+                  className="flex-1 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-teal/50 transition-colors"
+                  aria-label="Email address for newsletter"
                 />
-                <button className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-teal to-electric-blue text-white text-sm font-medium hover:shadow-[0_0_20px_rgba(20,184,166,0.3)] transition-all duration-300 cursor-pointer">
+                <button
+                  type="submit"
+                  className="px-4 py-2.5 rounded-xl bg-teal hover:bg-teal/80 text-deep-space font-semibold text-xs transition-colors duration-200 shrink-0 cursor-pointer"
+                >
                   Subscribe
                 </button>
-              </div>
-            </div>
-
-            {/* Socials */}
-            <div className="flex gap-3">
-              {SOCIALS.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <motion.a
-                    key={social.name}
-                    href={social.href}
-                    className="w-10 h-10 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center text-muted hover:bg-teal/10 hover:border-teal/20 hover:text-teal transition-all duration-300"
-                    whileHover={{ y: -2 }}
-                    aria-label={social.name}
-                  >
-                    <Icon className="w-4 h-4" />
-                  </motion.a>
-                );
-              })}
+              </form>
             </div>
           </div>
 
-          {/* Link columns */}
-          {Object.entries(FOOTER_LINKS).map(([title, links]) => (
-            <div key={title} className="lg:col-span-2 lg:col-start-auto">
-              <h4 className="text-white font-semibold text-sm mb-5">{title}</h4>
-              <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link}>
+          {/* Nav Columns */}
+          {FOOTER_NAV.map((col) => (
+            <div key={col.title} className="space-y-4">
+              <h4 className="text-teal text-xs font-mono font-semibold tracking-[0.2em] uppercase">
+                {col.title}
+              </h4>
+              <ul className="space-y-2.5">
+                {col.links.map((link) => (
+                  <li key={link.label}>
                     <a
-                      href="#"
-                      className="text-muted text-sm hover:text-teal transition-colors duration-300"
+                      href={link.href}
+                      className="text-white/60 hover:text-white text-xs sm:text-sm font-light transition-colors duration-200 inline-flex items-center gap-1 group"
                     >
-                      {link}
+                      <span>{link.label}</span>
+                      <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-teal" />
                     </a>
                   </li>
                 ))}
@@ -108,32 +113,25 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Bottom bar */}
-        <div className="py-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-dark-muted text-xs">
-            © {new Date().getFullYear()} InnoBrain IT & AI Services Pvt. Ltd. All rights
-            reserved.
+        {/* Bottom Bar: Copyright & Legal */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
+          <p>
+            © {new Date().getFullYear()} InnoBrain IT & AI Services Pvt. Ltd. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            <a href="#" className="text-dark-muted text-xs hover:text-muted transition-colors">
+
+          <div className="flex items-center gap-6">
+            <a href="/privacy" className="hover:text-white/70 transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="text-dark-muted text-xs hover:text-muted transition-colors">
+            <a href="/terms" className="hover:text-white/70 transition-colors">
               Terms of Service
+            </a>
+            <a href="/security" className="hover:text-white/70 transition-colors">
+              Security
             </a>
           </div>
         </div>
       </div>
-
-      {/* AI Chat Bubble */}
-      <motion.button
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-teal to-electric-blue flex items-center justify-center shadow-[0_0_30px_rgba(20,184,166,0.3)] cursor-pointer text-white"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        aria-label="Open AI Assistant"
-      >
-        <MessageSquare className="w-6 h-6" />
-      </motion.button>
     </footer>
   );
 }
