@@ -21,7 +21,7 @@ export interface TechNode {
 // ────────────────────────────────────────────
 
 const RAW_NODES: Omit<TechNode, "pos">[] = [
-  // Ring 1: AI & Intelligence Core (Inner Ring R = 2.2)
+  // Ring 1: AI & Intelligence Core (Inner Ring R = 2.0)
   {
     id: "openai",
     name: "OpenAI GPT-4o",
@@ -77,7 +77,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     angle: ((Math.PI * 2) / 6) * 5,
   },
 
-  // Ring 2: Application Architecture (Middle Ring R = 4.0)
+  // Ring 2: Application Architecture (Middle Ring R = 3.6)
   {
     id: "nextjs",
     name: "Next.js 15",
@@ -142,7 +142,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     angle: ((Math.PI * 2) / 7) * 6,
   },
 
-  // Ring 3: Cloud & Scale (Outer Ring R = 5.8)
+  // Ring 3: Cloud & Scale (Outer Ring R = 5.2)
   {
     id: "aws",
     name: "AWS Enterprise",
@@ -208,13 +208,13 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
   },
 ];
 
-// Calculate 3D positions on concentric rings
+// Calculate 3D positions on concentric rings with subtle height elevation
 export const TECH_NODES: TechNode[] = RAW_NODES.map((node) => {
-  const radii = [0, 2.2, 4.0, 5.8];
+  const radii = [0, 2.0, 3.6, 5.2];
   const r = radii[node.ring];
   const x = Math.cos(node.angle) * r;
   const z = Math.sin(node.angle) * r;
-  const y = (node.ring - 2) * 0.4 + Math.sin(node.angle * 2) * 0.2;
+  const y = (node.ring - 2) * 0.3 + Math.sin(node.angle * 2) * 0.15;
   return { ...node, pos: [x, y, z] };
 });
 
@@ -273,7 +273,7 @@ function SynapticPathways({ hoveredId }: { hoveredId: string | null }) {
           vec3 cyan = vec3(0.08, 0.88, 0.78);
           vec3 blue = vec3(0.23, 0.55, 1.0);
           vec3 col = mix(cyan, blue, pulse);
-          gl_FragColor = vec4(col, 0.12 + pulse * 0.55);
+          gl_FragColor = vec4(col, 0.14 + pulse * 0.55);
         }
       `,
       transparent: true,
@@ -301,7 +301,7 @@ function SynapticPathways({ hoveredId }: { hoveredId: string | null }) {
           vec3 brightCyan = vec3(0.1, 0.98, 0.9);
           vec3 goldPulse = vec3(1.0, 0.85, 0.35);
           vec3 col = mix(brightCyan, goldPulse, pulse);
-          gl_FragColor = vec4(col, 0.7 + pulse * 0.3);
+          gl_FragColor = vec4(col, 0.75 + pulse * 0.25);
         }
       `,
       transparent: true,
@@ -320,7 +320,7 @@ function SynapticPathways({ hoveredId }: { hoveredId: string | null }) {
       `,
       fragmentShader: `
         void main() {
-          gl_FragColor = vec4(0.08, 0.5, 0.6, 0.04);
+          gl_FragColor = vec4(0.08, 0.5, 0.6, 0.03);
         }
       `,
       transparent: true,
@@ -425,17 +425,17 @@ function ConcentricRingGuides() {
     <group rotation={[Math.PI / 2, 0, 0]}>
       {/* Ring 1 Guide */}
       <mesh>
-        <torusGeometry args={[2.2, 0.006, 16, 100]} />
+        <torusGeometry args={[2.0, 0.005, 16, 100]} />
         <meshBasicMaterial color="#14B8A6" transparent opacity={0.18} blending={THREE.AdditiveBlending} />
       </mesh>
       {/* Ring 2 Guide */}
       <mesh>
-        <torusGeometry args={[4.0, 0.005, 16, 120]} />
+        <torusGeometry args={[3.6, 0.004, 16, 120]} />
         <meshBasicMaterial color="#3B82F6" transparent opacity={0.14} blending={THREE.AdditiveBlending} />
       </mesh>
       {/* Ring 3 Guide */}
       <mesh>
-        <torusGeometry args={[5.8, 0.004, 16, 140]} />
+        <torusGeometry args={[5.2, 0.003, 16, 140]} />
         <meshBasicMaterial color="#8B5CF6" transparent opacity={0.1} blending={THREE.AdditiveBlending} />
       </mesh>
     </group>
@@ -443,7 +443,7 @@ function ConcentricRingGuides() {
 }
 
 // ────────────────────────────────────────────
-// Central InnoBrain Engine Core (Enhanced UI & Colors)
+// Central InnoBrain Engine Core
 // ────────────────────────────────────────────
 
 function CentralNeuralCore({ isHovered }: { isHovered: boolean }) {
@@ -462,33 +462,33 @@ function CentralNeuralCore({ isHovered }: { isHovered: boolean }) {
     <group position={[0, 0, 0]}>
       {/* Outer Rotating Energy Ring */}
       <mesh ref={ringRef} rotation={[Math.PI / 3, 0, 0]}>
-        <torusGeometry args={[1.0, 0.008, 16, 80]} />
+        <torusGeometry args={[0.9, 0.008, 16, 80]} />
         <meshBasicMaterial color="#06B6D4" transparent opacity={0.5} blending={THREE.AdditiveBlending} />
       </mesh>
 
       {/* Wireframe Shell */}
       <mesh ref={shellRef}>
-        <icosahedronGeometry args={[0.72, 2]} />
+        <icosahedronGeometry args={[0.65, 2]} />
         <meshBasicMaterial wireframe color="#14B8A6" transparent opacity={isHovered ? 0.6 : 0.35} blending={THREE.AdditiveBlending} />
       </mesh>
 
       {/* Inner Glowing Core Sphere */}
       <mesh ref={coreRef}>
-        <sphereGeometry args={[0.42, 32, 32]} />
+        <sphereGeometry args={[0.36, 32, 32]} />
         <meshBasicMaterial color="#14B8A6" transparent opacity={isHovered ? 1.0 : 0.85} blending={THREE.AdditiveBlending} />
       </mesh>
 
       {/* Outer Halo Aura */}
       <mesh>
-        <sphereGeometry args={[0.9, 16, 16]} />
+        <sphereGeometry args={[0.8, 16, 16]} />
         <meshBasicMaterial color="#06B6D4" transparent opacity={isHovered ? 0.4 : 0.2} blending={THREE.AdditiveBlending} />
       </mesh>
 
-      {/* Enhanced Core HTML Badge */}
-      <Html center position={[0, 0, 0]} zIndexRange={[10, 0]}>
-        <div className="px-4 py-1.5 rounded-full bg-black/80 border border-teal/60 backdrop-blur-xl flex items-center gap-2 shadow-[0_0_25px_rgba(20,184,166,0.6)] cursor-pointer whitespace-nowrap">
-          <span className="w-2.5 h-2.5 rounded-full bg-teal animate-ping" />
-          <span className="text-xs font-black tracking-widest text-white uppercase">
+      {/* Enhanced Core HTML Badge — Fixed Scale & Uniform Sizing */}
+      <Html center position={[0, 0, 0]} zIndexRange={[100, 0]}>
+        <div className="px-3.5 py-1.5 rounded-full bg-black/85 border border-teal/60 backdrop-blur-xl flex items-center gap-2 shadow-[0_0_20px_rgba(20,184,166,0.5)] cursor-pointer whitespace-nowrap">
+          <span className="w-2 h-2 rounded-full bg-teal animate-ping" />
+          <span className="text-[11px] font-black tracking-widest text-white uppercase">
             InnoBrain <span className="text-teal">Engine</span>
           </span>
         </div>
@@ -523,7 +523,7 @@ export default function TechNetwork({
     const pos = new Float32Array(DUST_COUNT * 3);
     const col = new Float32Array(DUST_COUNT * 3);
     for (let i = 0; i < DUST_COUNT; i++) {
-      const r = 1.0 + Math.random() * 6.5;
+      const r = 1.0 + Math.random() * 6.0;
       const angle = Math.random() * Math.PI * 2;
       pos[i * 3] = Math.cos(angle) * r;
       pos[i * 3 + 1] = (Math.random() - 0.5) * 2;
@@ -540,8 +540,8 @@ export default function TechNetwork({
     if (!groupRef.current) return;
     const time = state.clock.elapsedTime;
 
-    const targetY = time * 0.03 + mouseRef.current.x * 0.12;
-    const targetX = 0.35 + mouseRef.current.y * 0.08;
+    const targetY = time * 0.03 + mouseRef.current.x * 0.1;
+    const targetX = 0.3 + mouseRef.current.y * 0.06;
 
     groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.05;
     groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.05;
@@ -587,27 +587,27 @@ export default function TechNetwork({
                 onSelectNode(null);
               }}
             >
-              <sphereGeometry args={[isHovered ? 0.24 : isConnected ? 0.18 : 0.14, 16, 16]} />
+              <sphereGeometry args={[isHovered ? 0.2 : isConnected ? 0.16 : 0.12, 16, 16]} />
               <meshBasicMaterial
                 color={node.color}
                 transparent
-                opacity={isDim ? 0.2 : isHovered ? 1.0 : isConnected ? 0.95 : 0.75}
+                opacity={isDim ? 0.25 : isHovered ? 1.0 : isConnected ? 0.95 : 0.8}
               />
             </mesh>
 
             {/* Glowing Aura Ring */}
             <mesh>
-              <sphereGeometry args={[isHovered ? 0.42 : isConnected ? 0.3 : 0.22, 16, 16]} />
+              <sphereGeometry args={[isHovered ? 0.35 : isConnected ? 0.26 : 0.18, 16, 16]} />
               <meshBasicMaterial
                 color={node.color}
                 transparent
-                opacity={isDim ? 0.05 : isHovered ? 0.5 : isConnected ? 0.35 : 0.12}
+                opacity={isDim ? 0.05 : isHovered ? 0.45 : isConnected ? 0.3 : 0.12}
                 blending={THREE.AdditiveBlending}
               />
             </mesh>
 
-            {/* Clean HTML Badge Label */}
-            <Html position={[0, 0.38, 0]} center distanceFactor={9.5} zIndexRange={[100, 0]}>
+            {/* Uniform Crisp HTML Badge (Fixed Scale, No Camera Distance Ballooning) */}
+            <Html position={[0, 0.3, 0]} center zIndexRange={[100, 0]}>
               <div
                 onMouseEnter={() => {
                   setHoveredId(node.id);
@@ -617,22 +617,22 @@ export default function TechNetwork({
                   setHoveredId(null);
                   onSelectNode(null);
                 }}
-                className={`px-3 py-1.5 rounded-xl border backdrop-blur-xl transition-all duration-300 cursor-pointer whitespace-nowrap flex items-center gap-2 shadow-lg ${
+                className={`px-2.5 py-1 rounded-lg border backdrop-blur-md transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-1.5 shadow-md ${
                   isHovered
-                    ? "bg-white/25 text-white border-white scale-110 shadow-[0_0_25px_rgba(20,184,166,0.9)] opacity-100 z-50"
+                    ? "bg-white/25 text-white border-white scale-110 shadow-[0_0_20px_rgba(20,184,166,0.9)] opacity-100 z-50"
                     : isConnected
-                    ? "bg-teal/20 text-white border-teal/60 scale-105 opacity-100 shadow-[0_0_15px_rgba(20,184,166,0.4)]"
+                    ? "bg-teal/20 text-white border-teal/60 scale-105 opacity-100 shadow-[0_0_12px_rgba(20,184,166,0.4)]"
                     : isDim
                     ? "bg-black/80 text-white/20 border-white/5 opacity-30 scale-95"
-                    : "bg-black/60 text-white/80 border-white/10 hover:border-white/40 opacity-90"
+                    : "bg-black/70 text-white/85 border-white/15 hover:border-white/40 opacity-90"
                 }`}
-                style={{ boxShadow: isHovered ? `0 0 20px ${node.color}` : undefined }}
+                style={{ boxShadow: isHovered ? `0 0 16px ${node.color}` : undefined }}
               >
                 <span
-                  className={`w-2 h-2 rounded-full ${isHovered || isConnected ? "animate-ping" : ""}`}
+                  className={`w-1.5 h-1.5 rounded-full ${isHovered || isConnected ? "animate-ping" : ""}`}
                   style={{ backgroundColor: node.color }}
                 />
-                <span className="text-xs font-bold tracking-wide">{node.name}</span>
+                <span className="text-[11px] font-semibold tracking-wide">{node.name}</span>
               </div>
             </Html>
           </group>
