@@ -103,7 +103,6 @@ body {
   background: rgba(9, 9, 11, 0.6);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(248, 250, 252, 0.06);
 }
 
 .glass-card {
