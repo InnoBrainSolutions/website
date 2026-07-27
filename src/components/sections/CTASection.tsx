@@ -11,6 +11,17 @@ export default function CTASection() {
       className="relative py-32 lg:py-40 overflow-hidden"
       aria-label="Call to Action"
     >
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-[0] opacity-30 mix-blend-screen pointer-events-none"
+      >
+        <source src="/12649331_1920_1080_30fps.mp4" type="video/mp4" />
+      </video>
+
       {/* Aurora background */}
       <div className="absolute inset-0 aurora-bg" />
 
