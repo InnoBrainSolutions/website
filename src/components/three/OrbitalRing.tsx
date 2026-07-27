@@ -17,16 +17,17 @@ export interface TechNode {
 }
 
 // ────────────────────────────────────────────
-// Structured Neural Synapse Network (20 Technologies)
+// Restrained InnoBrain Brand Palette (Skills.md Compliant)
+// Primary Teal (#14B8A6) | Electric Blue (#3B82F6) | Cyber Cyan (#06B6D4) | Accent Violet (#8B5CF6)
 // ────────────────────────────────────────────
 
 const RAW_NODES: Omit<TechNode, "pos">[] = [
-  // Ring 1: AI & Intelligence Core (Inner Ring R = 2.0)
+  // Ring 1: AI & Intelligence Core (Teal & Cyan Brand Spectrum)
   {
     id: "openai",
     name: "OpenAI GPT-4o",
     category: "AI & Intelligence",
-    color: "#10A37F",
+    color: "#14B8A6", // Primary Teal
     description: "LLMs, Fine-Tuning & Autonomous AI Agents",
     ring: 1,
     angle: 0,
@@ -35,7 +36,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "pytorch",
     name: "PyTorch",
     category: "AI & Intelligence",
-    color: "#EE4C2C",
+    color: "#06B6D4", // Cyber Cyan
     description: "Deep Learning & Model Training Framework",
     ring: 1,
     angle: (Math.PI * 2) / 6,
@@ -44,7 +45,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "langchain",
     name: "LangChain",
     category: "AI & Intelligence",
-    color: "#1C3C3C",
+    color: "#2DD4BF", // Bright Mint Teal
     description: "RAG Pipelines & Agent Orchestration",
     ring: 1,
     angle: ((Math.PI * 2) / 6) * 2,
@@ -53,7 +54,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "python",
     name: "Python AI",
     category: "AI & Intelligence",
-    color: "#3776AB",
+    color: "#3B82F6", // Electric Blue
     description: "Core AI/ML Runtime & Data Engineering",
     ring: 1,
     angle: ((Math.PI * 2) / 6) * 3,
@@ -62,7 +63,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "tensorflow",
     name: "TensorFlow",
     category: "AI & Intelligence",
-    color: "#FF6F00",
+    color: "#06B6D4", // Cyber Cyan
     description: "Neural Network Training & Edge Deployment",
     ring: 1,
     angle: ((Math.PI * 2) / 6) * 4,
@@ -71,18 +72,18 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "anthropic",
     name: "Anthropic Claude",
     category: "AI & Intelligence",
-    color: "#D97706",
+    color: "#14B8A6", // Primary Teal
     description: "Reasoning Models & Safety Alignment",
     ring: 1,
     angle: ((Math.PI * 2) / 6) * 5,
   },
 
-  // Ring 2: Application Architecture (Middle Ring R = 3.6)
+  // Ring 2: Application Architecture (Electric Blue & Crisp Light Spectrum)
   {
     id: "nextjs",
     name: "Next.js 15",
     category: "Application Architecture",
-    color: "#FFFFFF",
+    color: "#F8FAFC", // Crisp Light
     description: "Serverless Web Engine & SSR Architecture",
     ring: 2,
     angle: 0,
@@ -91,7 +92,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "react",
     name: "React 19",
     category: "Application Architecture",
-    color: "#61DAFB",
+    color: "#38BDF8", // Sky Blue
     description: "Interactive Component UI & Concurrent Rendering",
     ring: 2,
     angle: (Math.PI * 2) / 7,
@@ -100,7 +101,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "typescript",
     name: "TypeScript",
     category: "Application Architecture",
-    color: "#3178C6",
+    color: "#3B82F6", // Electric Blue
     description: "Type-Safe Enterprise Application Logic",
     ring: 2,
     angle: ((Math.PI * 2) / 7) * 2,
@@ -109,7 +110,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "flutter",
     name: "Flutter",
     category: "Application Architecture",
-    color: "#02569B",
+    color: "#0284C7", // Deep Sky
     description: "Native Cross-Platform iOS & Android Apps",
     ring: 2,
     angle: ((Math.PI * 2) / 7) * 3,
@@ -118,7 +119,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "graphql",
     name: "GraphQL",
     category: "Application Architecture",
-    color: "#E535AB",
+    color: "#8B5CF6", // Accent Violet
     description: "Declarative Unified Data API Layer",
     ring: 2,
     angle: ((Math.PI * 2) / 7) * 4,
@@ -127,7 +128,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "tailwind",
     name: "Tailwind CSS",
     category: "Application Architecture",
-    color: "#06B6D4",
+    color: "#06B6D4", // Cyber Cyan
     description: "Modern Design System & Utility Styling",
     ring: 2,
     angle: ((Math.PI * 2) / 7) * 5,
@@ -136,18 +137,18 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "node",
     name: "Node.js",
     category: "Application Architecture",
-    color: "#5FA04E",
+    color: "#10B981", // Emerald
     description: "Asynchronous Enterprise Backend Services",
     ring: 2,
     angle: ((Math.PI * 2) / 7) * 6,
   },
 
-  // Ring 3: Cloud & Scale (Outer Ring R = 5.2)
+  // Ring 3: Cloud & Scale (Violet & Deep Electric Spectrum)
   {
     id: "aws",
     name: "AWS Enterprise",
     category: "Cloud & Infrastructure",
-    color: "#FF9900",
+    color: "#3B82F6", // Electric Blue
     description: "Scalable Cloud Compute & Serverless",
     ring: 3,
     angle: 0,
@@ -156,7 +157,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "kubernetes",
     name: "Kubernetes",
     category: "Cloud & Infrastructure",
-    color: "#326CE5",
+    color: "#6366F1", // Indigo
     description: "Auto-Scaling Microservices Orchestration",
     ring: 3,
     angle: (Math.PI * 2) / 7,
@@ -165,7 +166,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "docker",
     name: "Docker",
     category: "Cloud & Infrastructure",
-    color: "#2496ED",
+    color: "#0284C7", // Deep Sky
     description: "Containerization & Isolated Services",
     ring: 3,
     angle: ((Math.PI * 2) / 7) * 2,
@@ -174,7 +175,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "postgresql",
     name: "PostgreSQL",
     category: "Cloud & Infrastructure",
-    color: "#4169E1",
+    color: "#8B5CF6", // Accent Violet
     description: "Reliable Relational Database & Vector Store",
     ring: 3,
     angle: ((Math.PI * 2) / 7) * 3,
@@ -183,7 +184,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "redis",
     name: "Redis",
     category: "Cloud & Infrastructure",
-    color: "#DC2626",
+    color: "#06B6D4", // Cyber Cyan
     description: "Ultra-Fast In-Memory Cache & Message Broker",
     ring: 3,
     angle: ((Math.PI * 2) / 7) * 4,
@@ -192,7 +193,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "azure",
     name: "Azure",
     category: "Cloud & Infrastructure",
-    color: "#0089D6",
+    color: "#3B82F6", // Electric Blue
     description: "Enterprise Hybrid Cloud & Security",
     ring: 3,
     angle: ((Math.PI * 2) / 7) * 5,
@@ -201,7 +202,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
     id: "gcp",
     name: "Google Cloud",
     category: "Cloud & Infrastructure",
-    color: "#4285F4",
+    color: "#6366F1", // Indigo
     description: "AI Cloud Compute & BigData Processing",
     ring: 3,
     angle: ((Math.PI * 2) / 7) * 6,
@@ -299,8 +300,8 @@ function SynapticPathways({ hoveredId }: { hoveredId: string | null }) {
           float pulse = sin(vUvX * 24.0 - uTime * 6.0) * 0.5 + 0.5;
           pulse = pow(pulse, 2.5);
           vec3 brightCyan = vec3(0.1, 0.98, 0.9);
-          vec3 goldPulse = vec3(1.0, 0.85, 0.35);
-          vec3 col = mix(brightCyan, goldPulse, pulse);
+          vec3 violetPulse = vec3(0.55, 0.36, 0.96);
+          vec3 col = mix(brightCyan, violetPulse, pulse);
           gl_FragColor = vec4(col, 0.75 + pulse * 0.25);
         }
       `,
