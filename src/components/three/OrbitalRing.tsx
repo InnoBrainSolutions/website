@@ -18,7 +18,6 @@ export interface TechNode {
 
 // ────────────────────────────────────────────
 // Structured Neural Synapse Network (20 Technologies)
-// Concentric Rings — Zero Tangled Wires!
 // ────────────────────────────────────────────
 
 const RAW_NODES: Omit<TechNode, "pos">[] = [
@@ -209,7 +208,7 @@ const RAW_NODES: Omit<TechNode, "pos">[] = [
   },
 ];
 
-// Calculate 3D positions on concentric rings with subtle height elevation
+// Calculate 3D positions on concentric rings
 export const TECH_NODES: TechNode[] = RAW_NODES.map((node) => {
   const radii = [0, 2.2, 4.0, 5.8];
   const r = radii[node.ring];
@@ -221,12 +220,41 @@ export const TECH_NODES: TechNode[] = RAW_NODES.map((node) => {
 
 const DUST_COUNT = 400;
 
+// Map of connections between nodes for interactive highlighting
+const CONNECTIONS_MAP: { [key: string]: string[] } = {};
+TECH_NODES.forEach((node) => {
+  CONNECTIONS_MAP[node.id] = ["core"];
+});
+
+// Radial connections
+TECH_NODES.filter((n) => n.ring === 2).forEach((node) => {
+  const r1Nodes = TECH_NODES.filter((n1) => n1.ring === 1);
+  const closest1 = r1Nodes.reduce((prev, curr) => {
+    const d1 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...prev.pos));
+    const d2 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...curr.pos));
+    return d1 < d2 ? prev : curr;
+  });
+  if (!CONNECTIONS_MAP[node.id].includes(closest1.id)) CONNECTIONS_MAP[node.id].push(closest1.id);
+  if (!CONNECTIONS_MAP[closest1.id].includes(node.id)) CONNECTIONS_MAP[closest1.id].push(node.id);
+});
+
+TECH_NODES.filter((n) => n.ring === 3).forEach((node) => {
+  const r2Nodes = TECH_NODES.filter((n2) => n2.ring === 2);
+  const closest2 = r2Nodes.reduce((prev, curr) => {
+    const d1 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...prev.pos));
+    const d2 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...curr.pos));
+    return d1 < d2 ? prev : curr;
+  });
+  if (!CONNECTIONS_MAP[node.id].includes(closest2.id)) CONNECTIONS_MAP[node.id].push(closest2.id);
+  if (!CONNECTIONS_MAP[closest2.id].includes(node.id)) CONNECTIONS_MAP[closest2.id].push(node.id);
+});
+
 // ────────────────────────────────────────────
-// Structured Synaptic Energy Paths (Clean, Radial & Ring Pathways)
+// Structured Synaptic Energy Paths with Hover Highlighting
 // ────────────────────────────────────────────
 
 function SynapticPathways({ hoveredId }: { hoveredId: string | null }) {
-  const pathMaterial = useMemo(() => {
+  const defaultMaterial = useMemo(() => {
     return new THREE.ShaderMaterial({
       uniforms: { uTime: { value: 0 } },
       vertexShader: `
@@ -254,65 +282,133 @@ function SynapticPathways({ hoveredId }: { hoveredId: string | null }) {
     });
   }, []);
 
-  const lines = useMemo(() => {
-    const lineObjs: { line: THREE.Line; id1: string; id2: string }[] = [];
+  const activeMaterial = useMemo(() => {
+    return new THREE.ShaderMaterial({
+      uniforms: { uTime: { value: 0 } },
+      vertexShader: `
+        varying float vUvX;
+        void main() {
+          vUvX = uv.x;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        varying float vUvX;
+        void main() {
+          float pulse = sin(vUvX * 24.0 - uTime * 6.0) * 0.5 + 0.5;
+          pulse = pow(pulse, 2.5);
+          vec3 brightCyan = vec3(0.1, 0.98, 0.9);
+          vec3 goldPulse = vec3(1.0, 0.85, 0.35);
+          vec3 col = mix(brightCyan, goldPulse, pulse);
+          gl_FragColor = vec4(col, 0.7 + pulse * 0.3);
+        }
+      `,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+  }, []);
 
-    // 1. Radial Spoke Connections from Central Core to Ring 1 Nodes
+  const dimMaterial = useMemo(() => {
+    return new THREE.ShaderMaterial({
+      uniforms: {},
+      vertexShader: `
+        void main() {
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        void main() {
+          gl_FragColor = vec4(0.08, 0.5, 0.6, 0.04);
+        }
+      `,
+      transparent: true,
+      depthWrite: false,
+    });
+  }, []);
+
+  const lines = useMemo(() => {
+    const lineObjs: { defaultLine: THREE.Line; activeLine: THREE.Line; dimLine: THREE.Line; id1: string; id2: string }[] = [];
+
+    // 1. Spoke Connections Core -> Ring 1
     TECH_NODES.filter((n) => n.ring === 1).forEach((node) => {
       const p1 = new THREE.Vector3(0, 0, 0);
       const p2 = new THREE.Vector3(...node.pos);
       const geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
-      lineObjs.push({ line: new THREE.Line(geo, pathMaterial), id1: "core", id2: node.id });
+      lineObjs.push({
+        defaultLine: new THREE.Line(geo, defaultMaterial),
+        activeLine: new THREE.Line(geo, activeMaterial),
+        dimLine: new THREE.Line(geo, dimMaterial),
+        id1: "core",
+        id2: node.id,
+      });
     });
 
     // 2. Inter-Ring Radial Connections (Ring 1 -> Ring 2 -> Ring 3)
     TECH_NODES.filter((n) => n.ring === 2).forEach((node) => {
-      // Connect to closest Ring 1 node
       const r1Nodes = TECH_NODES.filter((n1) => n1.ring === 1);
       const closest1 = r1Nodes.reduce((prev, curr) => {
         const d1 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...prev.pos));
         const d2 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...curr.pos));
         return d1 < d2 ? prev : curr;
       });
-
       const p1 = new THREE.Vector3(...closest1.pos);
       const p2 = new THREE.Vector3(...node.pos);
       const geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
-      lineObjs.push({ line: new THREE.Line(geo, pathMaterial), id1: closest1.id, id2: node.id });
+      lineObjs.push({
+        defaultLine: new THREE.Line(geo, defaultMaterial),
+        activeLine: new THREE.Line(geo, activeMaterial),
+        dimLine: new THREE.Line(geo, dimMaterial),
+        id1: closest1.id,
+        id2: node.id,
+      });
     });
 
     TECH_NODES.filter((n) => n.ring === 3).forEach((node) => {
-      // Connect to closest Ring 2 node
       const r2Nodes = TECH_NODES.filter((n2) => n2.ring === 2);
       const closest2 = r2Nodes.reduce((prev, curr) => {
         const d1 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...prev.pos));
         const d2 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...curr.pos));
         return d1 < d2 ? prev : curr;
       });
-
       const p1 = new THREE.Vector3(...closest2.pos);
       const p2 = new THREE.Vector3(...node.pos);
       const geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
-      lineObjs.push({ line: new THREE.Line(geo, pathMaterial), id1: closest2.id, id2: node.id });
+      lineObjs.push({
+        defaultLine: new THREE.Line(geo, defaultMaterial),
+        activeLine: new THREE.Line(geo, activeMaterial),
+        dimLine: new THREE.Line(geo, dimMaterial),
+        id1: closest2.id,
+        id2: node.id,
+      });
     });
 
     return lineObjs;
-  }, [pathMaterial]);
+  }, [defaultMaterial, activeMaterial, dimMaterial]);
 
   useFrame((state) => {
-    pathMaterial.uniforms.uTime.value = state.clock.elapsedTime;
+    defaultMaterial.uniforms.uTime.value = state.clock.elapsedTime;
+    activeMaterial.uniforms.uTime.value = state.clock.elapsedTime;
   });
 
   return (
     <group>
       {lines.map((item, i) => {
-        const isHovered =
+        const isConnected =
           hoveredId && (item.id1 === hoveredId || item.id2 === hoveredId);
+        const isDim = hoveredId && !isConnected;
+
         return (
           <primitive
             key={i}
-            object={item.line}
-            scale={isHovered ? 1.05 : 1}
+            object={
+              isConnected
+                ? item.activeLine
+                : isDim
+                ? item.dimLine
+                : item.defaultLine
+            }
           />
         );
       })}
@@ -330,51 +426,71 @@ function ConcentricRingGuides() {
       {/* Ring 1 Guide */}
       <mesh>
         <torusGeometry args={[2.2, 0.006, 16, 100]} />
-        <meshBasicMaterial color="#14B8A6" transparent opacity={0.15} blending={THREE.AdditiveBlending} />
+        <meshBasicMaterial color="#14B8A6" transparent opacity={0.18} blending={THREE.AdditiveBlending} />
       </mesh>
       {/* Ring 2 Guide */}
       <mesh>
         <torusGeometry args={[4.0, 0.005, 16, 120]} />
-        <meshBasicMaterial color="#3B82F6" transparent opacity={0.12} blending={THREE.AdditiveBlending} />
+        <meshBasicMaterial color="#3B82F6" transparent opacity={0.14} blending={THREE.AdditiveBlending} />
       </mesh>
       {/* Ring 3 Guide */}
       <mesh>
         <torusGeometry args={[5.8, 0.004, 16, 140]} />
-        <meshBasicMaterial color="#8B5CF6" transparent opacity={0.08} blending={THREE.AdditiveBlending} />
+        <meshBasicMaterial color="#8B5CF6" transparent opacity={0.1} blending={THREE.AdditiveBlending} />
       </mesh>
     </group>
   );
 }
 
 // ────────────────────────────────────────────
-// Central InnoBrain Neural Brain Node
+// Central InnoBrain Engine Core (Enhanced UI & Colors)
 // ────────────────────────────────────────────
 
-function CentralNeuralCore() {
+function CentralNeuralCore({ isHovered }: { isHovered: boolean }) {
   const coreRef = useRef<THREE.Mesh>(null);
   const shellRef = useRef<THREE.Mesh>(null);
+  const ringRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     const time = state.clock.elapsedTime;
-    if (coreRef.current) coreRef.current.rotation.y = time * 0.2;
-    if (shellRef.current) shellRef.current.rotation.y = -time * 0.15;
+    if (coreRef.current) coreRef.current.rotation.y = time * 0.25;
+    if (shellRef.current) shellRef.current.rotation.y = -time * 0.18;
+    if (ringRef.current) ringRef.current.rotation.z = time * 0.3;
   });
 
   return (
     <group position={[0, 0, 0]}>
-      {/* Outer Shell */}
+      {/* Outer Rotating Energy Ring */}
+      <mesh ref={ringRef} rotation={[Math.PI / 3, 0, 0]}>
+        <torusGeometry args={[1.0, 0.008, 16, 80]} />
+        <meshBasicMaterial color="#06B6D4" transparent opacity={0.5} blending={THREE.AdditiveBlending} />
+      </mesh>
+
+      {/* Wireframe Shell */}
       <mesh ref={shellRef}>
-        <icosahedronGeometry args={[0.7, 2]} />
-        <meshBasicMaterial wireframe color="#14B8A6" transparent opacity={0.3} blending={THREE.AdditiveBlending} />
+        <icosahedronGeometry args={[0.72, 2]} />
+        <meshBasicMaterial wireframe color="#14B8A6" transparent opacity={isHovered ? 0.6 : 0.35} blending={THREE.AdditiveBlending} />
       </mesh>
-      {/* Inner Glowing Core */}
+
+      {/* Inner Glowing Core Sphere */}
       <mesh ref={coreRef}>
-        <sphereGeometry args={[0.38, 32, 32]} />
-        <meshBasicMaterial color="#14B8A6" transparent opacity={0.8} blending={THREE.AdditiveBlending} />
+        <sphereGeometry args={[0.42, 32, 32]} />
+        <meshBasicMaterial color="#14B8A6" transparent opacity={isHovered ? 1.0 : 0.85} blending={THREE.AdditiveBlending} />
       </mesh>
+
+      {/* Outer Halo Aura */}
+      <mesh>
+        <sphereGeometry args={[0.9, 16, 16]} />
+        <meshBasicMaterial color="#06B6D4" transparent opacity={isHovered ? 0.4 : 0.2} blending={THREE.AdditiveBlending} />
+      </mesh>
+
+      {/* Enhanced Core HTML Badge */}
       <Html center position={[0, 0, 0]} zIndexRange={[10, 0]}>
-        <div className="px-3 py-1 rounded-full bg-teal/20 border border-teal/40 backdrop-blur-md text-[10px] font-extrabold text-teal tracking-widest uppercase shadow-[0_0_15px_rgba(20,184,166,0.5)]">
-          InnoBrain Engine
+        <div className="px-4 py-1.5 rounded-full bg-black/80 border border-teal/60 backdrop-blur-xl flex items-center gap-2 shadow-[0_0_25px_rgba(20,184,166,0.6)] cursor-pointer whitespace-nowrap">
+          <span className="w-2.5 h-2.5 rounded-full bg-teal animate-ping" />
+          <span className="text-xs font-black tracking-widest text-white uppercase">
+            InnoBrain <span className="text-teal">Engine</span>
+          </span>
         </div>
       </Html>
     </group>
@@ -424,7 +540,6 @@ export default function TechNetwork({
     if (!groupRef.current) return;
     const time = state.clock.elapsedTime;
 
-    // Smooth subtle rotational animation & mouse tilt
     const targetY = time * 0.03 + mouseRef.current.x * 0.12;
     const targetX = 0.35 + mouseRef.current.y * 0.08;
 
@@ -447,14 +562,16 @@ export default function TechNetwork({
       </points>
 
       {/* Central InnoBrain Engine Core */}
-      <CentralNeuralCore />
+      <CentralNeuralCore isHovered={hoveredId === "core"} />
 
-      {/* Clean Structured Synaptic Pathways */}
+      {/* Clean Structured Synaptic Pathways with Highlighting */}
       <SynapticPathways hoveredId={hoveredId} />
 
       {/* 20 Technology Synapse Nodes */}
       {TECH_NODES.map((node) => {
         const isHovered = hoveredId === node.id;
+        const isConnected = hoveredId && CONNECTIONS_MAP[hoveredId]?.includes(node.id);
+        const isDim = hoveredId && !isHovered && !isConnected;
 
         return (
           <group key={node.id} position={node.pos}>
@@ -470,14 +587,23 @@ export default function TechNetwork({
                 onSelectNode(null);
               }}
             >
-              <sphereGeometry args={[isHovered ? 0.22 : 0.14, 16, 16]} />
-              <meshBasicMaterial color={node.color} transparent opacity={isHovered ? 1.0 : 0.75} />
+              <sphereGeometry args={[isHovered ? 0.24 : isConnected ? 0.18 : 0.14, 16, 16]} />
+              <meshBasicMaterial
+                color={node.color}
+                transparent
+                opacity={isDim ? 0.2 : isHovered ? 1.0 : isConnected ? 0.95 : 0.75}
+              />
             </mesh>
 
             {/* Glowing Aura Ring */}
             <mesh>
-              <sphereGeometry args={[isHovered ? 0.36 : 0.24, 16, 16]} />
-              <meshBasicMaterial color={node.color} transparent opacity={isHovered ? 0.4 : 0.12} blending={THREE.AdditiveBlending} />
+              <sphereGeometry args={[isHovered ? 0.42 : isConnected ? 0.3 : 0.22, 16, 16]} />
+              <meshBasicMaterial
+                color={node.color}
+                transparent
+                opacity={isDim ? 0.05 : isHovered ? 0.5 : isConnected ? 0.35 : 0.12}
+                blending={THREE.AdditiveBlending}
+              />
             </mesh>
 
             {/* Clean HTML Badge Label */}
@@ -493,12 +619,19 @@ export default function TechNetwork({
                 }}
                 className={`px-3 py-1.5 rounded-xl border backdrop-blur-xl transition-all duration-300 cursor-pointer whitespace-nowrap flex items-center gap-2 shadow-lg ${
                   isHovered
-                    ? "bg-white/20 text-white border-white scale-110 shadow-[0_0_25px_rgba(20,184,166,0.8)]"
-                    : "bg-black/60 text-white/80 border-white/10 hover:border-white/40"
+                    ? "bg-white/25 text-white border-white scale-110 shadow-[0_0_25px_rgba(20,184,166,0.9)] opacity-100 z-50"
+                    : isConnected
+                    ? "bg-teal/20 text-white border-teal/60 scale-105 opacity-100 shadow-[0_0_15px_rgba(20,184,166,0.4)]"
+                    : isDim
+                    ? "bg-black/80 text-white/20 border-white/5 opacity-30 scale-95"
+                    : "bg-black/60 text-white/80 border-white/10 hover:border-white/40 opacity-90"
                 }`}
                 style={{ boxShadow: isHovered ? `0 0 20px ${node.color}` : undefined }}
               >
-                <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: node.color }} />
+                <span
+                  className={`w-2 h-2 rounded-full ${isHovered || isConnected ? "animate-ping" : ""}`}
+                  style={{ backgroundColor: node.color }}
+                />
                 <span className="text-xs font-bold tracking-wide">{node.name}</span>
               </div>
             </Html>
