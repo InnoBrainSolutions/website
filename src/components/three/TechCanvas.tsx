@@ -10,10 +10,10 @@ export default function TechCanvas({
   onSelectNode: (node: TechNode | null) => void;
 }) {
   return (
-    <div className="w-full h-[65vh] lg:h-[75vh]">
+    <div className="w-full h-[75vh] lg:h-[85vh]">
       <Suspense fallback={null}>
         <Canvas
-          camera={{ position: [0, 0, 7.5], fov: 48 }}
+          camera={{ position: [0, 0, 8.5], fov: 52 }}
           dpr={[1, 2]}
           gl={{
             antialias: true,
