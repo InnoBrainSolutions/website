@@ -5,150 +5,230 @@ import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
 
-// ────────────────────────────────────────────
-// Epic Tech Ecosystem Nodes Data
-// ────────────────────────────────────────────
-
 export interface TechNode {
   id: string;
   name: string;
-  category: "AI & Neural" | "Frontend & Mobile" | "Cloud & Scale";
+  category: "AI & Intelligence" | "Application Architecture" | "Cloud & Infrastructure";
   color: string;
   description: string;
+  ring: number; // 1: Inner AI, 2: Middle App, 3: Outer Cloud
+  angle: number; // Angle around concentric ring
   pos: [number, number, number];
-  connections: string[];
 }
 
-export const TECH_NODES: TechNode[] = [
-  // AI & Neural Tier (Top Arc - Spread Wide)
+// ────────────────────────────────────────────
+// Structured Neural Synapse Network (20 Technologies)
+// Concentric Rings — Zero Tangled Wires!
+// ────────────────────────────────────────────
+
+const RAW_NODES: Omit<TechNode, "pos">[] = [
+  // Ring 1: AI & Intelligence Core (Inner Ring R = 2.2)
   {
     id: "openai",
     name: "OpenAI GPT-4o",
-    category: "AI & Neural",
+    category: "AI & Intelligence",
     color: "#10A37F",
     description: "LLMs, Fine-Tuning & Autonomous AI Agents",
-    pos: [0, 2.4, 0.6],
-    connections: ["python", "langchain", "tensorflow", "core"],
+    ring: 1,
+    angle: 0,
   },
   {
-    id: "tensorflow",
-    name: "TensorFlow",
-    category: "AI & Neural",
-    color: "#FF6F00",
-    description: "Deep Neural Networks & Machine Learning Models",
-    pos: [-3.2, 2.0, -0.6],
-    connections: ["python", "openai", "core"],
+    id: "pytorch",
+    name: "PyTorch",
+    category: "AI & Intelligence",
+    color: "#EE4C2C",
+    description: "Deep Learning & Model Training Framework",
+    ring: 1,
+    angle: (Math.PI * 2) / 6,
   },
   {
     id: "langchain",
     name: "LangChain",
-    category: "AI & Neural",
+    category: "AI & Intelligence",
     color: "#1C3C3C",
-    description: "RAG Pipelines & Multi-Agent Workflows",
-    pos: [3.2, 1.9, -0.5],
-    connections: ["openai", "python", "core"],
+    description: "RAG Pipelines & Agent Orchestration",
+    ring: 1,
+    angle: ((Math.PI * 2) / 6) * 2,
   },
   {
     id: "python",
     name: "Python AI",
-    category: "AI & Neural",
+    category: "AI & Intelligence",
     color: "#3776AB",
-    description: "High-Performance Data Engineering & ML Runtime",
-    pos: [-1.6, 1.1, 1.2],
-    connections: ["openai", "tensorflow", "langchain", "aws", "core"],
+    description: "Core AI/ML Runtime & Data Engineering",
+    ring: 1,
+    angle: ((Math.PI * 2) / 6) * 3,
+  },
+  {
+    id: "tensorflow",
+    name: "TensorFlow",
+    category: "AI & Intelligence",
+    color: "#FF6F00",
+    description: "Neural Network Training & Edge Deployment",
+    ring: 1,
+    angle: ((Math.PI * 2) / 6) * 4,
+  },
+  {
+    id: "anthropic",
+    name: "Anthropic Claude",
+    category: "AI & Intelligence",
+    color: "#D97706",
+    description: "Reasoning Models & Safety Alignment",
+    ring: 1,
+    angle: ((Math.PI * 2) / 6) * 5,
   },
 
-  // Frontend & Mobile Tier (Left Arc - Wide Spread)
-  {
-    id: "react",
-    name: "React 19",
-    category: "Frontend & Mobile",
-    color: "#61DAFB",
-    description: "Interactive UI & Ultra-Fast Component System",
-    pos: [-4.8, -0.6, 0.8],
-    connections: ["nextjs", "flutter", "core"],
-  },
+  // Ring 2: Application Architecture (Middle Ring R = 4.0)
   {
     id: "nextjs",
     name: "Next.js 15",
-    category: "Frontend & Mobile",
+    category: "Application Architecture",
     color: "#FFFFFF",
     description: "Serverless Web Engine & SSR Architecture",
-    pos: [-2.6, -1.4, 1.5],
-    connections: ["react", "python", "aws", "core"],
+    ring: 2,
+    angle: 0,
+  },
+  {
+    id: "react",
+    name: "React 19",
+    category: "Application Architecture",
+    color: "#61DAFB",
+    description: "Interactive Component UI & Concurrent Rendering",
+    ring: 2,
+    angle: (Math.PI * 2) / 7,
+  },
+  {
+    id: "typescript",
+    name: "TypeScript",
+    category: "Application Architecture",
+    color: "#3178C6",
+    description: "Type-Safe Enterprise Application Logic",
+    ring: 2,
+    angle: ((Math.PI * 2) / 7) * 2,
   },
   {
     id: "flutter",
     name: "Flutter",
-    category: "Frontend & Mobile",
+    category: "Application Architecture",
     color: "#02569B",
-    description: "Cross-Platform Native iOS & Android Apps",
-    pos: [-5.2, -2.1, -0.8],
-    connections: ["react", "core"],
+    description: "Native Cross-Platform iOS & Android Apps",
+    ring: 2,
+    angle: ((Math.PI * 2) / 7) * 3,
+  },
+  {
+    id: "graphql",
+    name: "GraphQL",
+    category: "Application Architecture",
+    color: "#E535AB",
+    description: "Declarative Unified Data API Layer",
+    ring: 2,
+    angle: ((Math.PI * 2) / 7) * 4,
+  },
+  {
+    id: "tailwind",
+    name: "Tailwind CSS",
+    category: "Application Architecture",
+    color: "#06B6D4",
+    description: "Modern Design System & Utility Styling",
+    ring: 2,
+    angle: ((Math.PI * 2) / 7) * 5,
+  },
+  {
+    id: "node",
+    name: "Node.js",
+    category: "Application Architecture",
+    color: "#5FA04E",
+    description: "Asynchronous Enterprise Backend Services",
+    ring: 2,
+    angle: ((Math.PI * 2) / 7) * 6,
   },
 
-  // Cloud & Scale Tier (Right Arc - Wide Spread)
+  // Ring 3: Cloud & Scale (Outer Ring R = 5.8)
   {
     id: "aws",
     name: "AWS Enterprise",
-    category: "Cloud & Scale",
+    category: "Cloud & Infrastructure",
     color: "#FF9900",
-    description: "Scalable Cloud Architecture & Serverless Compute",
-    pos: [2.6, -0.7, 1.3],
-    connections: ["docker", "kubernetes", "python", "nextjs", "core"],
-  },
-  {
-    id: "azure",
-    name: "Microsoft Azure",
-    category: "Cloud & Scale",
-    color: "#0089D6",
-    description: "Enterprise Hybrid Cloud & Compliance Security",
-    pos: [5.0, -0.3, -1.0],
-    connections: ["aws", "kubernetes", "core"],
-  },
-  {
-    id: "docker",
-    name: "Docker",
-    category: "Cloud & Scale",
-    color: "#2496ED",
-    description: "Containerization & Reproducible Environments",
-    pos: [2.1, -2.1, -0.5],
-    connections: ["aws", "kubernetes", "core"],
+    description: "Scalable Cloud Compute & Serverless",
+    ring: 3,
+    angle: 0,
   },
   {
     id: "kubernetes",
     name: "Kubernetes",
-    category: "Cloud & Scale",
+    category: "Cloud & Infrastructure",
     color: "#326CE5",
-    description: "Auto-Scaling Microservices & Cluster Management",
-    pos: [4.4, -1.9, 0.6],
-    connections: ["docker", "aws", "azure", "core"],
+    description: "Auto-Scaling Microservices Orchestration",
+    ring: 3,
+    angle: (Math.PI * 2) / 7,
   },
-
-  // Central Core Node
   {
-    id: "core",
-    name: "InnoBrain Core",
-    category: "AI & Neural",
-    color: "#14B8A6",
-    description: "Central AI Systems Architecture",
-    pos: [0, -0.1, 0],
-    connections: [],
+    id: "docker",
+    name: "Docker",
+    category: "Cloud & Infrastructure",
+    color: "#2496ED",
+    description: "Containerization & Isolated Services",
+    ring: 3,
+    angle: ((Math.PI * 2) / 7) * 2,
+  },
+  {
+    id: "postgresql",
+    name: "PostgreSQL",
+    category: "Cloud & Infrastructure",
+    color: "#4169E1",
+    description: "Reliable Relational Database & Vector Store",
+    ring: 3,
+    angle: ((Math.PI * 2) / 7) * 3,
+  },
+  {
+    id: "redis",
+    name: "Redis",
+    category: "Cloud & Infrastructure",
+    color: "#DC2626",
+    description: "Ultra-Fast In-Memory Cache & Message Broker",
+    ring: 3,
+    angle: ((Math.PI * 2) / 7) * 4,
+  },
+  {
+    id: "azure",
+    name: "Azure",
+    category: "Cloud & Infrastructure",
+    color: "#0089D6",
+    description: "Enterprise Hybrid Cloud & Security",
+    ring: 3,
+    angle: ((Math.PI * 2) / 7) * 5,
+  },
+  {
+    id: "gcp",
+    name: "Google Cloud",
+    category: "Cloud & Infrastructure",
+    color: "#4285F4",
+    description: "AI Cloud Compute & BigData Processing",
+    ring: 3,
+    angle: ((Math.PI * 2) / 7) * 6,
   },
 ];
 
-const DUST_COUNT = 500;
+// Calculate 3D positions on concentric rings with subtle height elevation
+export const TECH_NODES: TechNode[] = RAW_NODES.map((node) => {
+  const radii = [0, 2.2, 4.0, 5.8];
+  const r = radii[node.ring];
+  const x = Math.cos(node.angle) * r;
+  const z = Math.sin(node.angle) * r;
+  const y = (node.ring - 2) * 0.4 + Math.sin(node.angle * 2) * 0.2;
+  return { ...node, pos: [x, y, z] };
+});
+
+const DUST_COUNT = 400;
 
 // ────────────────────────────────────────────
-// Epic 3D Laser Stream Bezier Connections
+// Structured Synaptic Energy Paths (Clean, Radial & Ring Pathways)
 // ────────────────────────────────────────────
 
-function EpicNeuralStreams({ hoveredId }: { hoveredId: string | null }) {
-  const lineShaderMaterial = useMemo(() => {
+function SynapticPathways({ hoveredId }: { hoveredId: string | null }) {
+  const pathMaterial = useMemo(() => {
     return new THREE.ShaderMaterial({
-      uniforms: {
-        uTime: { value: 0 },
-      },
+      uniforms: { uTime: { value: 0 } },
       vertexShader: `
         varying float vUvX;
         void main() {
@@ -160,12 +240,12 @@ function EpicNeuralStreams({ hoveredId }: { hoveredId: string | null }) {
         uniform float uTime;
         varying float vUvX;
         void main() {
-          float pulse = sin(vUvX * 18.0 - uTime * 5.0) * 0.5 + 0.5;
-          pulse = pow(pulse, 3.5);
-          vec3 cyan = vec3(0.08, 0.92, 0.85);
+          float pulse = sin(vUvX * 16.0 - uTime * 4.0) * 0.5 + 0.5;
+          pulse = pow(pulse, 4.0);
+          vec3 cyan = vec3(0.08, 0.88, 0.78);
           vec3 blue = vec3(0.23, 0.55, 1.0);
           vec3 col = mix(cyan, blue, pulse);
-          gl_FragColor = vec4(col, 0.18 + pulse * 0.65);
+          gl_FragColor = vec4(col, 0.12 + pulse * 0.55);
         }
       `,
       transparent: true,
@@ -174,56 +254,65 @@ function EpicNeuralStreams({ hoveredId }: { hoveredId: string | null }) {
     });
   }, []);
 
-  const streamLines = useMemo(() => {
-    const nodeMap = new Map(TECH_NODES.map((n) => [n.id, n]));
-    const lines: { line: THREE.Line; from: string; to: string }[] = [];
-    const added = new Set<string>();
+  const lines = useMemo(() => {
+    const lineObjs: { line: THREE.Line; id1: string; id2: string }[] = [];
 
-    TECH_NODES.forEach((node) => {
-      node.connections.forEach((targetId) => {
-        const target = nodeMap.get(targetId);
-        if (!target) return;
-
-        const pairKey = [node.id, targetId].sort().join("--");
-        if (added.has(pairKey)) return;
-        added.add(pairKey);
-
-        const p1 = new THREE.Vector3(...node.pos);
-        const p2 = new THREE.Vector3(...target.pos);
-
-        // Curved Bezier arch for epic 3D volumetric feel
-        const mid = p1.clone().add(p2).multiplyScalar(0.5);
-        const dist = p1.distanceTo(p2);
-        mid.y += dist * 0.15;
-        mid.z += dist * 0.1;
-
-        const curve = new THREE.QuadraticBezierCurve3(p1, mid, p2);
-        const points = curve.getPoints(40);
-        const geo = new THREE.BufferGeometry().setFromPoints(points);
-
-        const lineObj = new THREE.Line(geo, lineShaderMaterial);
-        lines.push({ line: lineObj, from: node.id, to: targetId });
-      });
+    // 1. Radial Spoke Connections from Central Core to Ring 1 Nodes
+    TECH_NODES.filter((n) => n.ring === 1).forEach((node) => {
+      const p1 = new THREE.Vector3(0, 0, 0);
+      const p2 = new THREE.Vector3(...node.pos);
+      const geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+      lineObjs.push({ line: new THREE.Line(geo, pathMaterial), id1: "core", id2: node.id });
     });
 
-    return lines;
-  }, [lineShaderMaterial]);
+    // 2. Inter-Ring Radial Connections (Ring 1 -> Ring 2 -> Ring 3)
+    TECH_NODES.filter((n) => n.ring === 2).forEach((node) => {
+      // Connect to closest Ring 1 node
+      const r1Nodes = TECH_NODES.filter((n1) => n1.ring === 1);
+      const closest1 = r1Nodes.reduce((prev, curr) => {
+        const d1 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...prev.pos));
+        const d2 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...curr.pos));
+        return d1 < d2 ? prev : curr;
+      });
+
+      const p1 = new THREE.Vector3(...closest1.pos);
+      const p2 = new THREE.Vector3(...node.pos);
+      const geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+      lineObjs.push({ line: new THREE.Line(geo, pathMaterial), id1: closest1.id, id2: node.id });
+    });
+
+    TECH_NODES.filter((n) => n.ring === 3).forEach((node) => {
+      // Connect to closest Ring 2 node
+      const r2Nodes = TECH_NODES.filter((n2) => n2.ring === 2);
+      const closest2 = r2Nodes.reduce((prev, curr) => {
+        const d1 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...prev.pos));
+        const d2 = new THREE.Vector3(...node.pos).distanceTo(new THREE.Vector3(...curr.pos));
+        return d1 < d2 ? prev : curr;
+      });
+
+      const p1 = new THREE.Vector3(...closest2.pos);
+      const p2 = new THREE.Vector3(...node.pos);
+      const geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+      lineObjs.push({ line: new THREE.Line(geo, pathMaterial), id1: closest2.id, id2: node.id });
+    });
+
+    return lineObjs;
+  }, [pathMaterial]);
 
   useFrame((state) => {
-    lineShaderMaterial.uniforms.uTime.value = state.clock.elapsedTime;
+    pathMaterial.uniforms.uTime.value = state.clock.elapsedTime;
   });
 
   return (
     <group>
-      {streamLines.map((item, i) => {
-        const isConnected =
-          hoveredId && (item.from === hoveredId || item.to === hoveredId);
-
+      {lines.map((item, i) => {
+        const isHovered =
+          hoveredId && (item.id1 === hoveredId || item.id2 === hoveredId);
         return (
           <primitive
             key={i}
             object={item.line}
-            scale={isConnected ? 1.08 : 1}
+            scale={isHovered ? 1.05 : 1}
           />
         );
       })}
@@ -232,68 +321,60 @@ function EpicNeuralStreams({ hoveredId }: { hoveredId: string | null }) {
 }
 
 // ────────────────────────────────────────────
-// Central Quantum Core Core (Volumetric Brain)
+// Concentric Orbital Ring Guides
 // ────────────────────────────────────────────
 
-function CentralQuantumCore() {
-  const outerRef = useRef<THREE.Mesh>(null);
-  const innerRef = useRef<THREE.Mesh>(null);
-  const ringRef = useRef<THREE.Mesh>(null);
+function ConcentricRingGuides() {
+  return (
+    <group rotation={[Math.PI / 2, 0, 0]}>
+      {/* Ring 1 Guide */}
+      <mesh>
+        <torusGeometry args={[2.2, 0.006, 16, 100]} />
+        <meshBasicMaterial color="#14B8A6" transparent opacity={0.15} blending={THREE.AdditiveBlending} />
+      </mesh>
+      {/* Ring 2 Guide */}
+      <mesh>
+        <torusGeometry args={[4.0, 0.005, 16, 120]} />
+        <meshBasicMaterial color="#3B82F6" transparent opacity={0.12} blending={THREE.AdditiveBlending} />
+      </mesh>
+      {/* Ring 3 Guide */}
+      <mesh>
+        <torusGeometry args={[5.8, 0.004, 16, 140]} />
+        <meshBasicMaterial color="#8B5CF6" transparent opacity={0.08} blending={THREE.AdditiveBlending} />
+      </mesh>
+    </group>
+  );
+}
+
+// ────────────────────────────────────────────
+// Central InnoBrain Neural Brain Node
+// ────────────────────────────────────────────
+
+function CentralNeuralCore() {
+  const coreRef = useRef<THREE.Mesh>(null);
+  const shellRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     const time = state.clock.elapsedTime;
-    if (outerRef.current) {
-      outerRef.current.rotation.y = time * 0.2;
-      outerRef.current.rotation.x = time * 0.1;
-    }
-    if (innerRef.current) {
-      innerRef.current.rotation.y = -time * 0.3;
-    }
-    if (ringRef.current) {
-      ringRef.current.rotation.z = time * 0.15;
-    }
+    if (coreRef.current) coreRef.current.rotation.y = time * 0.2;
+    if (shellRef.current) shellRef.current.rotation.y = -time * 0.15;
   });
 
   return (
-    <group position={[0, -0.1, 0]}>
-      {/* Outer Wireframe Icosahedron */}
-      <mesh ref={outerRef}>
-        <icosahedronGeometry args={[0.75, 2]} />
-        <meshBasicMaterial
-          wireframe
-          color="#14B8A6"
-          transparent
-          opacity={0.35}
-          blending={THREE.AdditiveBlending}
-        />
+    <group position={[0, 0, 0]}>
+      {/* Outer Shell */}
+      <mesh ref={shellRef}>
+        <icosahedronGeometry args={[0.7, 2]} />
+        <meshBasicMaterial wireframe color="#14B8A6" transparent opacity={0.3} blending={THREE.AdditiveBlending} />
       </mesh>
-
-      {/* Inner Glowing Orb */}
-      <mesh ref={innerRef}>
+      {/* Inner Glowing Core */}
+      <mesh ref={coreRef}>
         <sphereGeometry args={[0.38, 32, 32]} />
-        <meshBasicMaterial
-          color="#14B8A6"
-          transparent
-          opacity={0.7}
-          blending={THREE.AdditiveBlending}
-        />
+        <meshBasicMaterial color="#14B8A6" transparent opacity={0.8} blending={THREE.AdditiveBlending} />
       </mesh>
-
-      {/* Outer Orbiting Halo Ring */}
-      <mesh ref={ringRef} rotation={[Math.PI / 3, 0, 0]}>
-        <torusGeometry args={[1.1, 0.008, 16, 80]} />
-        <meshBasicMaterial
-          color="#3B82F6"
-          transparent
-          opacity={0.4}
-          blending={THREE.AdditiveBlending}
-        />
-      </mesh>
-
-      {/* Center Label */}
       <Html center position={[0, 0, 0]} zIndexRange={[10, 0]}>
-        <div className="px-3 py-1 rounded-full bg-teal/20 border border-teal/40 backdrop-blur-md text-[11px] font-extrabold text-teal tracking-widest uppercase shadow-[0_0_20px_rgba(20,184,166,0.5)]">
-          InnoBrain Core
+        <div className="px-3 py-1 rounded-full bg-teal/20 border border-teal/40 backdrop-blur-md text-[10px] font-extrabold text-teal tracking-widest uppercase shadow-[0_0_15px_rgba(20,184,166,0.5)]">
+          InnoBrain Engine
         </div>
       </Html>
     </group>
@@ -322,21 +403,19 @@ export default function TechNetwork({
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Background particle dust cloud
   const { particlePos, particleCol } = useMemo(() => {
     const pos = new Float32Array(DUST_COUNT * 3);
     const col = new Float32Array(DUST_COUNT * 3);
     for (let i = 0; i < DUST_COUNT; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 16;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 8;
+      const r = 1.0 + Math.random() * 6.5;
+      const angle = Math.random() * Math.PI * 2;
+      pos[i * 3] = Math.cos(angle) * r;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 2;
+      pos[i * 3 + 2] = Math.sin(angle) * r;
 
-      const rnd = Math.random();
-      if (rnd > 0.5) {
-        col[i * 3] = 0.08; col[i * 3 + 1] = 0.85; col[i * 3 + 2] = 0.78;
-      } else {
-        col[i * 3] = 0.23; col[i * 3 + 1] = 0.51; col[i * 3 + 2] = 0.96;
-      }
+      col[i * 3] = 0.08;
+      col[i * 3 + 1] = 0.85;
+      col[i * 3 + 2] = 0.78;
     }
     return { particlePos: pos, particleCol: col };
   }, []);
@@ -345,9 +424,9 @@ export default function TechNetwork({
     if (!groupRef.current) return;
     const time = state.clock.elapsedTime;
 
-    // Dynamic rotation + mouse parallax
-    const targetY = Math.sin(time * 0.12) * 0.12 + time * 0.02 + mouseRef.current.x * 0.15;
-    const targetX = Math.cos(time * 0.08) * 0.06 + mouseRef.current.y * 0.1;
+    // Smooth subtle rotational animation & mouse tilt
+    const targetY = time * 0.03 + mouseRef.current.x * 0.12;
+    const targetX = 0.35 + mouseRef.current.y * 0.08;
 
     groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.05;
     groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.05;
@@ -355,44 +434,31 @@ export default function TechNetwork({
 
   return (
     <group ref={groupRef}>
-      {/* Ambient Space Dust */}
+      {/* Concentric Guide Rings */}
+      <ConcentricRingGuides />
+
+      {/* Ambient Neural Dust */}
       <points>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[particlePos, 3]} />
           <bufferAttribute attach="attributes-color" args={[particleCol, 3]} />
         </bufferGeometry>
-        <pointsMaterial
-          size={0.04}
-          vertexColors
-          transparent
-          opacity={0.4}
-          sizeAttenuation
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
+        <pointsMaterial size={0.035} vertexColors transparent opacity={0.3} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} />
       </points>
 
-      {/* Central Quantum Brain Core */}
-      <CentralQuantumCore />
+      {/* Central InnoBrain Engine Core */}
+      <CentralNeuralCore />
 
-      {/* 3D Curved Neural Laser Streams */}
-      <EpicNeuralStreams hoveredId={hoveredId} />
+      {/* Clean Structured Synaptic Pathways */}
+      <SynapticPathways hoveredId={hoveredId} />
 
-      {/* Tech Nodes (3D Interactive Badges) */}
+      {/* 20 Technology Synapse Nodes */}
       {TECH_NODES.map((node) => {
-        if (node.id === "core") return null;
-
         const isHovered = hoveredId === node.id;
-        const isConnectedToHovered =
-          hoveredId &&
-          (node.connections.includes(hoveredId) ||
-            TECH_NODES.find((n) => n.id === hoveredId)?.connections.includes(
-              node.id
-            ));
 
         return (
           <group key={node.id} position={node.pos}>
-            {/* Glowing Sphere Core */}
+            {/* Synapse Node Sphere */}
             <mesh
               onPointerOver={(e) => {
                 e.stopPropagation();
@@ -404,32 +470,18 @@ export default function TechNetwork({
                 onSelectNode(null);
               }}
             >
-              <sphereGeometry args={[isHovered ? 0.22 : 0.15, 16, 16]} />
-              <meshBasicMaterial
-                color={node.color}
-                transparent
-                opacity={isHovered ? 1.0 : isConnectedToHovered ? 0.9 : 0.7}
-              />
+              <sphereGeometry args={[isHovered ? 0.22 : 0.14, 16, 16]} />
+              <meshBasicMaterial color={node.color} transparent opacity={isHovered ? 1.0 : 0.75} />
             </mesh>
 
-            {/* Outer Aura Glow Mesh */}
+            {/* Glowing Aura Ring */}
             <mesh>
-              <sphereGeometry args={[isHovered ? 0.38 : 0.25, 16, 16]} />
-              <meshBasicMaterial
-                color={node.color}
-                transparent
-                opacity={isHovered ? 0.4 : isConnectedToHovered ? 0.25 : 0.12}
-                blending={THREE.AdditiveBlending}
-              />
+              <sphereGeometry args={[isHovered ? 0.36 : 0.24, 16, 16]} />
+              <meshBasicMaterial color={node.color} transparent opacity={isHovered ? 0.4 : 0.12} blending={THREE.AdditiveBlending} />
             </mesh>
 
-            {/* HTML Floating Glass Badge */}
-            <Html
-              position={[0, 0.4, 0]}
-              center
-              distanceFactor={9.5}
-              zIndexRange={[100, 0]}
-            >
+            {/* Clean HTML Badge Label */}
+            <Html position={[0, 0.38, 0]} center distanceFactor={9.5} zIndexRange={[100, 0]}>
               <div
                 onMouseEnter={() => {
                   setHoveredId(node.id);
@@ -439,24 +491,15 @@ export default function TechNetwork({
                   setHoveredId(null);
                   onSelectNode(null);
                 }}
-                className={`px-3.5 py-1.5 rounded-xl border backdrop-blur-xl transition-all duration-300 cursor-pointer whitespace-nowrap flex items-center gap-2.5 shadow-xl ${
+                className={`px-3 py-1.5 rounded-xl border backdrop-blur-xl transition-all duration-300 cursor-pointer whitespace-nowrap flex items-center gap-2 shadow-lg ${
                   isHovered
-                    ? "bg-white/20 text-white border-white scale-110 shadow-[0_0_30px_rgba(20,184,166,0.8)]"
-                    : isConnectedToHovered
-                    ? "bg-white/10 text-white border-white/50 scale-105"
-                    : "bg-black/50 text-white/80 border-white/10 hover:border-white/40"
+                    ? "bg-white/20 text-white border-white scale-110 shadow-[0_0_25px_rgba(20,184,166,0.8)]"
+                    : "bg-black/60 text-white/80 border-white/10 hover:border-white/40"
                 }`}
-                style={{
-                  boxShadow: isHovered ? `0 0 25px ${node.color}` : undefined,
-                }}
+                style={{ boxShadow: isHovered ? `0 0 20px ${node.color}` : undefined }}
               >
-                <span
-                  className="w-2.5 h-2.5 rounded-full animate-pulse"
-                  style={{ backgroundColor: node.color }}
-                />
-                <span className="text-xs sm:text-sm font-bold tracking-wide">
-                  {node.name}
-                </span>
+                <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: node.color }} />
+                <span className="text-xs font-bold tracking-wide">{node.name}</span>
               </div>
             </Html>
           </group>
