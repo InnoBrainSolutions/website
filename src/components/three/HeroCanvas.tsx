@@ -3,18 +3,25 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import NeuralNetwork from "./NeuralNetwork";
+import { useAdaptiveQuality } from "@/hooks/useAdaptiveQuality";
 
 function FallbackGradient() {
   return <div className="absolute inset-0 aurora-bg opacity-50" />;
 }
 
 export default function HeroCanvas() {
+  const { dpr, prefersReducedMotion } = useAdaptiveQuality();
+
+  if (prefersReducedMotion) {
+    return <FallbackGradient />;
+  }
+
   return (
     <div className="absolute inset-0 z-[1] pointer-events-none">
       <Suspense fallback={<FallbackGradient />}>
         <Canvas
           camera={{ position: [0, 0, 6], fov: 60 }}
-          dpr={[1, 1.5]}
+          dpr={dpr}
           gl={{
             antialias: true,
             alpha: true,
