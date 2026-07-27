@@ -1,125 +1,101 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import TextReveal from "@/components/ui/TextReveal";
 import MagneticButton from "@/components/ui/MagneticButton";
 import LazyBackgroundVideo from "@/components/effects/LazyBackgroundVideo";
 
-const SERVICE_TAGS = [
-  "AI Solutions",
-  "Software Engineering",
-  "Cloud",
-  "Automation",
-  "Enterprise Innovation",
-];
+const HeroCanvas = dynamic(() => import("@/components/three/HeroCanvas"), {
+  ssr: false,
+});
 
 export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-deep-space py-20"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-deep-space"
       aria-label="Hero"
     >
-      {/* Fast, Instant Autoplay Background Video */}
+      {/* Layer 1: Atmospheric Background Video */}
       <LazyBackgroundVideo
         src="/12421439_3840_2160_30fps.mp4"
-        className="opacity-75"
+        className="opacity-50"
       />
 
-      {/* Vignette / gradient overlays for optimal text legibility */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-deep-space/70 via-transparent to-deep-space pointer-events-none" />
-      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-deep-space/50 via-transparent to-deep-space/50 pointer-events-none" />
+      {/* Layer 2: 3D Living Neural Network — InnoBrain's iconic visual */}
+      <HeroCanvas />
 
-      {/* Hero Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto my-auto">
-        {/* Badge */}
+      {/* Layer 3: Dark vignettes for text legibility over 3D */}
+      <div className="absolute inset-0 z-[2] bg-gradient-to-b from-deep-space/60 via-transparent to-deep-space pointer-events-none" />
+      <div className="absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(9,9,11,0.8)_100%)] pointer-events-none" />
+
+      {/* Layer 4: Content — stripped to 3 essential elements */}
+      <div className="relative z-10 text-center px-6 max-w-6xl mx-auto my-auto">
+        {/* Tiny badge — understated, not competing */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="mb-10"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide border border-teal/30 bg-deep-space/60 backdrop-blur-md text-teal">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-medium tracking-widest uppercase border border-white/10 bg-white/[0.03] backdrop-blur-sm text-white/50">
             <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse-glow" />
             Where Intelligence Meets Innovation
           </span>
         </motion.div>
 
-        {/* Main heading */}
-        <h1 className="mb-6">
-          <motion.span
-            className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-tighter text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)] mb-4"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            INNOBRAIN
-          </motion.span>
-          <TextReveal
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight glow-text drop-shadow-md"
-            delay={0.7}
-            stagger={0.08}
-          >
-            Engineering Intelligence.
-          </TextReveal>
-          <TextReveal
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight glow-text mt-2 drop-shadow-md"
-            delay={1.0}
-            stagger={0.08}
-          >
-            Building Tomorrow.
-          </TextReveal>
-        </h1>
+        {/* THE title — monumental, cinematic */}
+        <motion.h1
+          className="mb-8"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className="block text-[clamp(3.5rem,12vw,12rem)] font-extrabold tracking-[-0.06em] text-white leading-[0.85] drop-shadow-[0_20px_60px_rgba(0,0,0,0.9)]">
+            INNO
+            <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent">
+              BRAIN
+            </span>
+          </span>
+        </motion.h1>
 
-        {/* Service tags */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10"
+        {/* Subtitle — cinematic, not descriptive */}
+        <motion.p
+          className="text-lg sm:text-xl md:text-2xl font-light text-white/60 tracking-wide mb-14 max-w-xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.4 }}
+          transition={{ duration: 1, delay: 1.6 }}
         >
-          {SERVICE_TAGS.map((tag, i) => (
-            <span
-              key={tag}
-              className="text-white/80 text-xs sm:text-sm font-medium drop-shadow-sm"
-            >
-              {tag}
-              {i < SERVICE_TAGS.length - 1 && (
-                <span className="ml-2 sm:ml-3 text-teal/60">•</span>
-              )}
-            </span>
-          ))}
-        </motion.div>
+          Engineering intelligence.
+          <br />
+          Building tomorrow.
+        </motion.p>
 
-        {/* CTAs */}
+        {/* Single CTA — one clear action */}
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.6 }}
+          transition={{ duration: 0.8, delay: 2.0, ease: [0.16, 1, 0.3, 1] }}
         >
           <MagneticButton variant="primary" href="#story">
             Explore Our Vision
           </MagneticButton>
-          <MagneticButton variant="outline" href="#cta">
-            Start Your Project
-          </MagneticButton>
         </motion.div>
       </div>
 
-      {/* Scroll indicator (positioned at section bottom) */}
+      {/* Scroll indicator — minimal */}
       <motion.div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.2, duration: 0.6 }}
+        animate={{ opacity: 0.4 }}
+        transition={{ delay: 3, duration: 1 }}
       >
         <motion.div
-          className="w-6 h-10 rounded-full border border-white/30 bg-black/30 backdrop-blur-md flex justify-center pt-2"
-          animate={{ y: [0, 6, 0] }}
+          className="w-5 h-8 rounded-full border border-white/20 flex justify-center pt-1.5"
+          animate={{ y: [0, 5, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
         >
-          <div className="w-1 h-2 rounded-full bg-teal" />
+          <div className="w-0.5 h-1.5 rounded-full bg-white/40" />
         </motion.div>
       </motion.div>
     </section>

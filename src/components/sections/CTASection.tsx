@@ -1,86 +1,73 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import MagneticButton from "@/components/ui/MagneticButton";
-import TextReveal from "@/components/ui/TextReveal";
-import LazyBackgroundVideo from "@/components/effects/LazyBackgroundVideo";
+
+const StoryCanvas = dynamic(() => import("@/components/three/StoryCanvas"), {
+  ssr: false,
+});
 
 export default function CTASection() {
   return (
     <section
       id="cta"
-      className="relative py-32 lg:py-40 overflow-hidden bg-deep-space"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-deep-space"
       aria-label="Call to Action"
     >
-      {/* Aurora background */}
-      <div className="absolute inset-0 aurora-bg opacity-70" />
+      {/* 3D QuantumCore reprise — bookends the journey */}
+      <StoryCanvas scrollProgress={0.7} />
 
-      {/* Lazy Background Video */}
-      <LazyBackgroundVideo
-        src="/14492116_1920_1080_30fps.mp4"
-        className="opacity-55"
-      />
+      {/* Radial vignette */}
+      <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(9,9,11,0.85)_100%)] pointer-events-none" />
 
-      {/* Animated orbs */}
-      <motion.div
-        className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full blur-[120px] opacity-20 pointer-events-none"
-        style={{ background: "radial-gradient(circle, var(--teal), transparent)" }}
-        animate={{
-          x: [0, 50, 0],
-          y: [0, -30, 0],
-          scale: [1, 1.1, 1],
-        }}
-        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] opacity-15 pointer-events-none"
-        style={{ background: "radial-gradient(circle, var(--violet), transparent)" }}
-        animate={{
-          x: [0, -40, 0],
-          y: [0, 40, 0],
-          scale: [1, 1.15, 1],
-        }}
-        transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
-      />
-
-      <div className="container-custom relative z-10 text-center">
+      {/* Content */}
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.span
-          className="inline-block text-teal text-sm font-medium tracking-wider uppercase mb-6"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          className="text-teal/60 text-xs font-mono font-semibold tracking-[0.3em] uppercase block mb-10"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
           Let&apos;s Build Together
         </motion.span>
 
-        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 max-w-4xl mx-auto drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)]">
-          <TextReveal>Ready to build</TextReveal>
+        {/* Massive viewport-filling headline */}
+        <motion.h2
+          className="text-[clamp(2.5rem,8vw,8rem)] font-extrabold tracking-[-0.05em] leading-[0.85] text-white mb-10 drop-shadow-[0_20px_60px_rgba(0,0,0,0.9)]"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        >
+          Ready to build
           <br />
-          <span className="glow-text">
-            <TextReveal delay={0.2}>the future?</TextReveal>
+          <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent">
+            the future?
           </span>
-        </h2>
+        </motion.h2>
 
         <motion.p
-          className="text-muted text-lg max-w-2xl mx-auto mb-10 drop-shadow-sm"
+          className="text-white/40 text-base sm:text-lg max-w-lg mx-auto mb-14 font-light"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.6 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
         >
-          Whether you&apos;re starting from scratch or scaling to millions, our team
-          of engineers and AI specialists is ready to bring your vision to life.
+          Whether you&apos;re starting from scratch or scaling to millions, our
+          engineers are ready.
         </motion.p>
 
+        {/* Single CTA */}
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.7, duration: 0.6 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
         >
-          <MagneticButton variant="primary">Start Your Project</MagneticButton>
-          <MagneticButton variant="outline">Schedule a Call</MagneticButton>
+          <MagneticButton variant="primary" href="/contact">
+            Start Your Project
+          </MagneticButton>
         </motion.div>
       </div>
     </section>
