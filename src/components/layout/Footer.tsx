@@ -5,57 +5,60 @@ import { motion } from "framer-motion";
 import { Globe, Share2, Code2, Video, ArrowUpRight } from "lucide-react";
 
 // ────────────────────────────────────────────
-// Animated Fluid Drip Effect Component
+// Animated Shooting Stars / Cosmic Light Beams Component
 // ────────────────────────────────────────────
 
-function FluidDripEffect() {
-  // Generate 16 randomized drip drops across the width
-  const drops = useMemo(() => {
-    return Array.from({ length: 16 }).map((_, i) => ({
+function ShootingStarsEffect() {
+  const stars = useMemo(() => {
+    return Array.from({ length: 10 }).map((_, i) => ({
       id: i,
-      left: `${(i / 16) * 100 + (Math.random() * 3 - 1.5)}%`,
-      height: 35 + Math.random() * 45,
-      delay: Math.random() * 4,
-      duration: 3 + Math.random() * 3,
+      top: `${10 + Math.random() * 70}%`,
+      left: `${Math.random() * 80}%`,
+      width: 120 + Math.random() * 140,
+      delay: Math.random() * 5,
+      duration: 2.5 + Math.random() * 3,
       color:
         i % 3 === 0
-          ? "#14B8A6" // Teal
+          ? "rgba(20, 184, 166, 0.9)" // Teal
           : i % 3 === 1
-          ? "#06B6D4" // Cyan
-          : "#8B5CF6", // Violet
+          ? "rgba(6, 182, 212, 0.9)" // Cyan
+          : "rgba(139, 92, 246, 0.9)", // Violet
     }));
   }, []);
 
   return (
-    <div className="absolute top-0 left-0 right-0 h-24 overflow-hidden pointer-events-none z-10">
-      {drops.map((drop) => (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
+      {stars.map((star) => (
         <motion.div
-          key={drop.id}
-          className="absolute top-0 w-[2px] rounded-full"
+          key={star.id}
+          className="absolute h-[1.5px] rounded-full"
           style={{
-            left: drop.left,
-            height: `${drop.height}px`,
-            background: `linear-gradient(to bottom, ${drop.color}, transparent)`,
-            boxShadow: `0 0 10px ${drop.color}`,
+            top: star.top,
+            left: star.left,
+            width: `${star.width}px`,
+            background: `linear-gradient(90deg, transparent 0%, ${star.color} 70%, #FFFFFF 100%)`,
+            boxShadow: `0 0 12px ${star.color}`,
+            transform: "rotate(-35deg)",
+            transformOrigin: "left center",
           }}
           animate={{
-            y: [-10, 30, -10],
-            opacity: [0.2, 0.85, 0.2],
-            scaleY: [0.6, 1.2, 0.6],
+            x: [0, 400],
+            y: [0, 250],
+            opacity: [0, 1, 0],
+            scaleX: [0.2, 1.2, 0.2],
           }}
           transition={{
             repeat: Infinity,
-            duration: drop.duration,
-            delay: drop.delay,
-            ease: "easeInOut",
+            duration: star.duration,
+            delay: star.delay,
+            ease: "easeOut",
           }}
         >
-          {/* Glowing liquid drop bulb at the tip */}
+          {/* Shooting star head glowing core */}
           <div
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full"
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white"
             style={{
-              backgroundColor: drop.color,
-              boxShadow: `0 0 12px ${drop.color}, 0 0 20px ${drop.color}`,
+              boxShadow: `0 0 10px #FFFFFF, 0 0 20px ${star.color}`,
             }}
           />
         </motion.div>
@@ -111,8 +114,8 @@ const SOCIAL_LINKS = [
 export default function Footer() {
   return (
     <footer className="relative bg-deep-space border-t border-white/[0.08] overflow-hidden text-white">
-      {/* Animated Fluid Drip Effect at Top Border */}
-      <FluidDripEffect />
+      {/* Cosmic Shooting Stars & Light Streams Background */}
+      <ShootingStarsEffect />
 
       {/* Top Accent Gradient Border */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal to-electric-blue" />
