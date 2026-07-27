@@ -1,75 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
-import { motion } from "framer-motion";
 import { Globe, Share2, Code2, Video, ArrowUpRight } from "lucide-react";
-
-// ────────────────────────────────────────────
-// Animated Shooting Stars / Cosmic Light Beams Component
-// ────────────────────────────────────────────
-
-function ShootingStarsEffect() {
-  const stars = useMemo(() => {
-    return Array.from({ length: 10 }).map((_, i) => ({
-      id: i,
-      top: `${10 + Math.random() * 70}%`,
-      left: `${Math.random() * 80}%`,
-      width: 120 + Math.random() * 140,
-      delay: Math.random() * 5,
-      duration: 2.5 + Math.random() * 3,
-      color:
-        i % 3 === 0
-          ? "rgba(20, 184, 166, 0.9)" // Teal
-          : i % 3 === 1
-          ? "rgba(6, 182, 212, 0.9)" // Cyan
-          : "rgba(139, 92, 246, 0.9)", // Violet
-    }));
-  }, []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
-      {stars.map((star) => (
-        <motion.div
-          key={star.id}
-          className="absolute h-[1.5px] rounded-full"
-          style={{
-            top: star.top,
-            left: star.left,
-            width: `${star.width}px`,
-            background: `linear-gradient(90deg, transparent 0%, ${star.color} 70%, #FFFFFF 100%)`,
-            boxShadow: `0 0 12px ${star.color}`,
-            transform: "rotate(-35deg)",
-            transformOrigin: "left center",
-          }}
-          animate={{
-            x: [0, 400],
-            y: [0, 250],
-            opacity: [0, 1, 0],
-            scaleX: [0.2, 1.2, 0.2],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: star.duration,
-            delay: star.delay,
-            ease: "easeOut",
-          }}
-        >
-          {/* Shooting star head glowing core */}
-          <div
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white"
-            style={{
-              boxShadow: `0 0 10px #FFFFFF, 0 0 20px ${star.color}`,
-            }}
-          />
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-// ────────────────────────────────────────────
-// Navigation Links & Social Data
-// ────────────────────────────────────────────
 
 const FOOTER_NAV = [
   {
@@ -113,24 +44,11 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-deep-space border-t border-white/[0.08] overflow-hidden text-white">
-      {/* Cosmic Shooting Stars & Light Streams Background */}
-      <ShootingStarsEffect />
+    <footer className="relative bg-deep-space border-t border-white/[0.08] text-white">
+      {/* Top Border Line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal/30 to-transparent" />
 
-      {/* Top Accent Gradient Border */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal to-electric-blue" />
-
-      {/* Ambient Color Theme Gradient Orbs */}
-      <div
-        className="absolute top-0 left-1/4 w-[500px] h-[300px] rounded-full blur-[140px] opacity-15 pointer-events-none"
-        style={{ background: "radial-gradient(circle, var(--teal), transparent)" }}
-      />
-      <div
-        className="absolute bottom-0 right-1/4 w-[400px] h-[250px] rounded-full blur-[120px] opacity-15 pointer-events-none"
-        style={{ background: "radial-gradient(circle, var(--violet), transparent)" }}
-      />
-
-      <div className="container-custom relative z-20 pt-16 pb-12 lg:pt-20 lg:pb-14">
+      <div className="container-custom relative z-10 pt-16 pb-12 lg:pt-20 lg:pb-14">
         {/* Main 4-Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 pb-16 border-b border-white/[0.08]">
           {/* Brand & Newsletter Column */}
@@ -166,7 +84,7 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal via-cyan to-electric-blue text-deep-space font-bold text-xs hover:shadow-[0_0_25px_rgba(20,184,166,0.5)] transition-all duration-300 shrink-0 cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-teal text-deep-space font-bold text-xs hover:bg-teal/80 transition-colors duration-200 shrink-0 cursor-pointer"
                 >
                   Subscribe
                 </button>
@@ -178,15 +96,14 @@ export default function Footer() {
               {SOCIAL_LINKS.map((social) => {
                 const Icon = social.icon;
                 return (
-                  <motion.a
+                  <a
                     key={social.name}
                     href={social.href}
-                    whileHover={{ y: -3, scale: 1.05 }}
-                    className="w-9 h-9 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-white/60 hover:text-teal hover:border-teal/40 hover:shadow-[0_0_15px_rgba(20,184,166,0.3)] transition-all duration-300"
+                    className="w-9 h-9 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-white/60 hover:text-teal hover:border-teal/40 transition-colors duration-200"
                     aria-label={social.name}
                   >
                     <Icon className="w-4 h-4" />
-                  </motion.a>
+                  </a>
                 );
               })}
             </div>
