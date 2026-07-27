@@ -147,20 +147,20 @@ export default function CaseStudiesSection() {
     >
       {/* Dynamic ambient background glow matching active case study color */}
       <div
-        className="absolute inset-0 opacity-25 transition-all duration-700 pointer-events-none"
+        className="absolute inset-0 opacity-20 transition-all duration-700 pointer-events-none"
         style={{
           background: `radial-gradient(900px circle at 75% 50%, ${activeStudy.glowColor}, transparent 70%)`,
         }}
       />
 
-      <div className="container-custom w-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative z-10">
-        {/* LEFT COLUMN: Fixed Header & Industry Progress (40% Ratio) */}
-        <div className="w-full lg:w-[40%] xl:w-[38%] flex flex-col justify-center">
+      <div className="container-custom w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+        {/* LEFT COLUMN: Fixed Header & Industry Progress (5 / 12 Grid Cols) */}
+        <div className="lg:col-span-5 flex flex-col justify-center">
           <span className="text-teal text-xs font-mono font-semibold tracking-[0.3em] uppercase block mb-4">
             Proven Results
           </span>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white tracking-tight leading-[0.95] mb-8">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white tracking-tight leading-[1.0] mb-6">
             Transformations
             <br />
             <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent">
@@ -168,26 +168,26 @@ export default function CaseStudiesSection() {
             </span>
           </h2>
 
-          <p className="text-white/50 text-base sm:text-lg font-light mb-10 max-w-md">
+          <p className="text-white/50 text-sm sm:text-base font-light mb-8 max-w-md">
             Real enterprise deployments engineered for performance, precision, and measurable ROI.
           </p>
 
           {/* Industry Pills Indicator */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2.5">
             {CASE_STUDIES.map((study, i) => {
               const Icon = study.icon;
               const isActive = i === activeIndex;
               return (
                 <div
                   key={study.industry}
-                  className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium border transition-all duration-500 ${
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium border transition-all duration-500 ${
                     isActive
-                      ? "bg-white/10 text-white border-white/40 shadow-xl scale-105"
+                      ? "bg-white/10 text-white border-white/40 shadow-lg scale-105"
                       : "bg-white/[0.02] text-white/40 border-white/5"
                   }`}
                 >
                   <Icon
-                    className="w-4 h-4"
+                    className="w-3.5 h-3.5"
                     style={{ color: isActive ? study.color : "currentColor" }}
                   />
                   <span>{study.industry}</span>
@@ -197,8 +197,8 @@ export default function CaseStudiesSection() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Full-Height Showcase Card Container (60% Ratio) */}
-        <div className="w-full lg:w-[58%] xl:w-[60%] h-[520px] sm:h-[550px] lg:h-[580px] relative flex items-center">
+        {/* RIGHT COLUMN: Isolated Grid Showcase Stage (7 / 12 Grid Cols) */}
+        <div className="lg:col-span-7 h-[480px] sm:h-[520px] lg:h-[540px] relative w-full overflow-hidden rounded-3xl">
           {CASE_STUDIES.map((study, i) => {
             const Icon = study.icon;
             const isActive = i === activeIndex;
@@ -209,7 +209,7 @@ export default function CaseStudiesSection() {
                 ref={(el) => {
                   panelsRef.current[i] = el;
                 }}
-                className={`absolute inset-0 w-full h-full rounded-3xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/15 backdrop-blur-2xl p-8 sm:p-10 lg:p-12 flex flex-col justify-between shadow-[0_25px_70px_rgba(0,0,0,0.7)] ${
+                className={`absolute inset-0 w-full h-full rounded-3xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/15 backdrop-blur-2xl p-6 sm:p-8 lg:p-10 flex flex-col justify-between shadow-[0_25px_70px_rgba(0,0,0,0.7)] ${
                   isActive ? "pointer-events-auto" : "pointer-events-none"
                 }`}
                 style={{
@@ -220,17 +220,17 @@ export default function CaseStudiesSection() {
               >
                 {/* Card Top Header */}
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3.5">
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-3">
                       <div
-                        className="w-12 h-12 rounded-2xl flex items-center justify-center border"
+                        className="w-11 h-11 rounded-2xl flex items-center justify-center border"
                         style={{
                           borderColor: `${study.color}40`,
                           backgroundColor: `${study.color}15`,
                           color: study.color,
                         }}
                       >
-                        <Icon className="w-6 h-6" />
+                        <Icon className="w-5.5 h-5.5" />
                       </div>
                       <div>
                         <span className="text-white/40 text-xs font-mono uppercase tracking-widest block">
@@ -246,23 +246,23 @@ export default function CaseStudiesSection() {
                     </span>
                   </div>
 
-                  <h3 className="text-white text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-2">
+                  <h3 className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2">
                     {study.title}
                   </h3>
                 </div>
 
                 {/* Before vs After Comparison Blocks */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-6 border-y border-white/10 my-auto">
-                  <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.02] border border-white/5">
-                    <span className="text-red-400/80 text-xs font-mono font-bold uppercase tracking-wider block mb-1.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 py-5 border-y border-white/10 my-auto">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                    <span className="text-red-400/80 text-xs font-mono font-bold uppercase tracking-wider block mb-1">
                       Before InnoBrain
                     </span>
                     <p className="text-white/60 text-xs sm:text-sm leading-relaxed">
                       {study.before}
                     </p>
                   </div>
-                  <div className="p-4 sm:p-5 rounded-2xl bg-teal/10 border border-teal/20">
-                    <span className="text-teal text-xs font-mono font-bold uppercase tracking-wider block mb-1.5">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-teal/10 border border-teal/20">
+                    <span className="text-teal text-xs font-mono font-bold uppercase tracking-wider block mb-1">
                       After InnoBrain
                     </span>
                     <p className="text-white font-medium text-xs sm:text-sm leading-relaxed">
@@ -275,12 +275,12 @@ export default function CaseStudiesSection() {
                 <div className="flex items-end justify-between pt-2">
                   <div>
                     <span
-                      className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight leading-none block"
+                      className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-none block"
                       style={{ color: study.color }}
                     >
                       {study.metricValue}
                     </span>
-                    <span className="text-white/70 text-sm sm:text-base font-medium mt-1 block">
+                    <span className="text-white/70 text-xs sm:text-sm font-medium mt-1 block">
                       {study.metricLabel}
                     </span>
                   </div>
