@@ -1,146 +1,244 @@
 "use client";
 
+import { useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   Bot,
-  Layers,
+  Cpu,
   Clock,
   Rocket,
-  Lock,
+  ShieldCheck,
   Network,
+  Sparkles,
 } from "lucide-react";
-import GlassCard from "@/components/ui/GlassCard";
 import TextReveal from "@/components/ui/TextReveal";
+import ParticleField from "@/components/effects/ParticleField";
 
 const REASONS = [
   {
+    num: "01",
+    tag: "AI FOUNDATION",
     icon: Bot,
     title: "AI-First Thinking",
     description:
-      "Every solution we build starts with intelligence at its core. We don't add AI as an afterthought — it's the foundation.",
-    gradient: "from-teal to-cyan",
+      "Every solution we build starts with intelligence at its core. We don't add AI as an afterthought — it's the foundation of everything we build.",
+    gradient: "from-teal via-cyan to-electric-blue",
+    glowColor: "rgba(20, 184, 166, 0.15)",
+    iconBg: "bg-teal/10 border-teal/30 text-teal",
   },
   {
-    icon: Layers,
+    num: "02",
+    tag: "ENTERPRISE SCALE",
+    icon: Cpu,
     title: "Enterprise-Grade Engineering",
     description:
-      "Battle-tested architectures that scale to millions. We build for resilience, performance, and long-term maintainability.",
-    gradient: "from-electric-blue to-violet",
+      "Battle-tested architectures that scale smoothly to millions of active users. Built for resilience, 99.99% uptime, and long-term maintainability.",
+    gradient: "from-electric-blue via-violet to-teal",
+    glowColor: "rgba(59, 130, 246, 0.15)",
+    iconBg: "bg-electric-blue/10 border-electric-blue/30 text-electric-blue",
   },
   {
+    num: "03",
+    tag: "ALWAYS ON",
     icon: Clock,
     title: "24×7 Global Support",
     description:
-      "Round-the-clock monitoring and dedicated support teams. Your systems never sleep, and neither do we.",
-    gradient: "from-violet to-teal",
+      "Round-the-clock proactive monitoring and dedicated engineering support teams. Your critical infrastructure never sleeps, and neither do we.",
+    gradient: "from-violet via-teal to-cyan",
+    glowColor: "rgba(139, 92, 246, 0.15)",
+    iconBg: "bg-violet/10 border-violet/30 text-violet",
   },
   {
+    num: "04",
+    tag: "FULL CYCLE",
     icon: Rocket,
     title: "End-to-End Delivery",
     description:
-      "From strategy and design to deployment and optimization. One team, one vision, complete accountability.",
-    gradient: "from-cyan to-electric-blue",
+      "From initial architecture design to production deployment and AI optimization. One dedicated team, one unified vision, total accountability.",
+    gradient: "from-cyan via-electric-blue to-teal",
+    glowColor: "rgba(6, 182, 212, 0.15)",
+    iconBg: "bg-cyan/10 border-cyan/30 text-cyan",
   },
   {
-    icon: Lock,
+    num: "05",
+    tag: "ZERO TRUST",
+    icon: ShieldCheck,
     title: "Security by Design",
     description:
-      "Zero-trust architecture, compliance-first development, and continuous security auditing baked into every sprint.",
-    gradient: "from-teal to-violet",
+      "Zero-trust architecture, SOC2 compliance-first development, and continuous automated security auditing built directly into every sprint.",
+    gradient: "from-teal via-violet to-electric-blue",
+    glowColor: "rgba(20, 184, 166, 0.15)",
+    iconBg: "bg-teal/10 border-teal/30 text-teal",
   },
   {
+    num: "06",
+    tag: "MODULAR DEPLOY",
     icon: Network,
     title: "Future-Proof Architecture",
     description:
-      "We build on open standards and emerging technologies, ensuring your investment stays relevant for years to come.",
-    gradient: "from-electric-blue to-teal",
+      "We build on open standards, decoupled microservices, and modern frameworks, ensuring your core technology stack stays relevant for years.",
+    gradient: "from-electric-blue via-teal to-cyan",
+    glowColor: "rgba(59, 130, 246, 0.15)",
+    iconBg: "bg-electric-blue/10 border-electric-blue/30 text-electric-blue",
   },
 ];
 
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.1 },
+    transition: { staggerChildren: 0.08 },
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-    },
-  },
-};
+interface ReasonCardProps {
+  reason: (typeof REASONS)[0];
+}
+
+function ReasonCard({ reason }: ReasonCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const Icon = reason.icon;
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    setMousePos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
+  }, []);
+
+  return (
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, y: 35 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+        },
+      }}
+      className="h-full"
+    >
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="group relative flex flex-col justify-between h-full rounded-2xl bg-gradient-to-b from-white/[0.06] to-white/[0.015] border border-white/[0.08] hover:border-white/20 p-8 backdrop-blur-xl transition-all duration-300 transform-gpu translate-z-0 overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.4)] cursor-default"
+      >
+        {/* Dynamic Cursor Spotlight Effect */}
+        <div
+          className="absolute inset-0 pointer-events-none transition-opacity duration-500"
+          style={{
+            opacity: isHovered ? 1 : 0,
+            background: `radial-gradient(400px circle at ${mousePos.x}% ${mousePos.y}%, ${reason.glowColor}, transparent 65%)`,
+          }}
+        />
+
+        {/* Ambient Top Subtle Gradient Light */}
+        <div
+          className="absolute top-0 right-0 w-36 h-36 blur-3xl opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle, ${reason.glowColor}, transparent)`,
+          }}
+        />
+
+        <div>
+          {/* Card Top Header: Icon Badge & Number */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-12 h-12 rounded-xl border flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(20,184,166,0.2)] ${reason.iconBg}`}
+              >
+                <Icon className="w-6 h-6" />
+              </div>
+              <span className="text-[10px] font-mono font-bold tracking-widest text-teal/80 bg-teal/5 border border-teal/15 px-2.5 py-1 rounded-full uppercase">
+                {reason.tag}
+              </span>
+            </div>
+
+            <span className="text-2xl font-mono font-extrabold text-white/20 group-hover:text-white/40 transition-colors duration-300">
+              {reason.num}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h3 className="text-white text-xl font-bold tracking-tight mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-teal transition-all duration-300">
+            {reason.title}
+          </h3>
+
+          {/* Description */}
+          <p className="text-muted text-sm leading-relaxed">
+            {reason.description}
+          </p>
+        </div>
+
+        {/* Bottom Expandable Accent Line */}
+        <div className="mt-8 pt-4 border-t border-white/5 relative">
+          <div className="flex items-center justify-between text-xs text-muted/60 font-mono">
+            <span className="group-hover:text-teal transition-colors">
+              INNOBRAIN ADVANTAGE
+            </span>
+            <Sparkles className="w-3.5 h-3.5 text-teal/50 group-hover:text-teal group-hover:rotate-12 transition-all duration-300" />
+          </div>
+
+          {/* Glowing Animated Gradient Beam */}
+          <div
+            className={`absolute -top-px left-0 h-0.5 w-0 group-hover:w-full bg-gradient-to-r ${reason.gradient} transition-all duration-500 rounded-full shadow-[0_0_12px_rgba(20,184,166,0.6)]`}
+          />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function WhyChooseUsSection() {
   return (
     <section
       id="why"
-      className="section relative overflow-hidden"
+      className="section relative overflow-hidden py-28 lg:py-36 bg-deep-space"
       aria-label="Why Choose Us"
     >
+      <ParticleField particleCount={20} />
+
       <div className="container-custom relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 lg:mb-20">
           <motion.span
             className="inline-block text-teal text-sm font-medium tracking-wider uppercase mb-4"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
             Why InnoBrain
           </motion.span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">
             <TextReveal>Built different.</TextReveal>
             <br />
             <span className="glow-text">
               <TextReveal delay={0.2}>By design.</TextReveal>
             </span>
           </h2>
+          <p className="text-muted text-base sm:text-lg max-w-2xl mx-auto">
+            We don&apos;t just deliver code — we partner with forward-thinking enterprises
+            to build intelligent, future-proof engineering platforms.
+          </p>
         </div>
 
-        {/* Cards grid */}
+        {/* Cards Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-80px" }}
         >
-          {REASONS.map((reason) => {
-            const Icon = reason.icon;
-            return (
-              <motion.div key={reason.title} variants={itemVariants} className="group">
-                <GlassCard className="h-full">
-                  {/* Icon */}
-                  <div className="w-12 h-12 rounded-xl bg-teal/10 border border-teal/20 flex items-center justify-center text-teal mb-5 group-hover:scale-110 group-hover:bg-teal/20 transition-all duration-300">
-                    <Icon className="w-6 h-6" />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-white text-xl font-bold mb-3">
-                    {reason.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-muted text-sm leading-relaxed">
-                    {reason.description}
-                  </p>
-
-                  {/* Bottom gradient line */}
-                  <div className="mt-6 pt-4 border-t border-white/5">
-                    <div
-                      className={`h-0.5 w-0 group-hover:w-full bg-gradient-to-r ${reason.gradient} transition-all duration-700 rounded-full`}
-                    />
-                  </div>
-                </GlassCard>
-              </motion.div>
-            );
-          })}
+          {REASONS.map((reason) => (
+            <ReasonCard key={reason.title} reason={reason} />
+          ))}
         </motion.div>
       </div>
     </section>
