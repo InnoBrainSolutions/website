@@ -17,7 +17,7 @@ export default function CTASection() {
 
       {/* Lazy Background Video */}
       <LazyBackgroundVideo
-        src="/12649331_1920_1080_30fps.mp4"
+        src="/14492116_1920_1080_30fps.mp4"
         className="opacity-55"
       />
 

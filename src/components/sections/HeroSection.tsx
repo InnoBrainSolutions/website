@@ -17,12 +17,12 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-deep-space"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-deep-space py-20"
       aria-label="Hero"
     >
       {/* Fast, Instant Autoplay Background Video */}
       <LazyBackgroundVideo
-        src="/14492116_1920_1080_30fps.mp4"
+        src="/12421439_3840_2160_30fps.mp4"
         className="opacity-75"
       />
 
@@ -30,8 +30,8 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-[1] bg-gradient-to-b from-deep-space/70 via-transparent to-deep-space pointer-events-none" />
       <div className="absolute inset-0 z-[1] bg-gradient-to-r from-deep-space/50 via-transparent to-deep-space/50 pointer-events-none" />
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      {/* Hero Content */}
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto my-auto">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -105,23 +105,23 @@ export default function HeroSection() {
             Start Your Project
           </MagneticButton>
         </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.2, duration: 0.6 }}
-        >
-          <motion.div
-            className="w-6 h-10 rounded-full border border-white/25 bg-black/20 backdrop-blur-sm flex justify-center pt-2"
-            animate={{ y: [0, 6, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          >
-            <div className="w-1 h-2 rounded-full bg-teal" />
-          </motion.div>
-        </motion.div>
       </div>
+
+      {/* Scroll indicator (positioned at section bottom) */}
+      <motion.div
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.2, duration: 0.6 }}
+      >
+        <motion.div
+          className="w-6 h-10 rounded-full border border-white/30 bg-black/30 backdrop-blur-md flex justify-center pt-2"
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        >
+          <div className="w-1 h-2 rounded-full bg-teal" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
