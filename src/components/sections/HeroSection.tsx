@@ -21,6 +21,7 @@ export default function HeroSection() {
       <LazyBackgroundVideo
         src={CLOUDINARY_VIDEOS.heroBackground}
         className="opacity-50"
+        isPriority={true}
       />
 
       {/* Layer 2: 3D Living Neural Network — InnoBrain's iconic visual */}
