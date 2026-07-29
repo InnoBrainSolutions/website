@@ -1,15 +1,17 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import SpotlightCursor from "@/components/effects/SpotlightCursor";
 import HeroSection from "@/components/sections/HeroSection";
-import StorySection from "@/components/sections/StorySection";
-import ManifestoSection from "@/components/sections/ManifestoSection";
-import ServicesSection from "@/components/sections/ServicesSection";
-import CaseStudiesSection from "@/components/sections/CaseStudiesSection";
-import SingleStatSection from "@/components/sections/SingleStatSection";
-import TechStackSection from "@/components/sections/TechStackSection";
-import TrustSection from "@/components/sections/TrustSection";
-import CTASection from "@/components/sections/CTASection";
+
+const StorySection = dynamic(() => import("@/components/sections/StorySection"));
+const ManifestoSection = dynamic(() => import("@/components/sections/ManifestoSection"));
+const ServicesSection = dynamic(() => import("@/components/sections/ServicesSection"));
+const CaseStudiesSection = dynamic(() => import("@/components/sections/CaseStudiesSection"));
+const SingleStatSection = dynamic(() => import("@/components/sections/SingleStatSection"));
+const TechStackSection = dynamic(() => import("@/components/sections/TechStackSection"));
+const TrustSection = dynamic(() => import("@/components/sections/TrustSection"));
+const CTASection = dynamic(() => import("@/components/sections/CTASection"));
+const SpotlightCursor = dynamic(() => import("@/components/effects/SpotlightCursor"));
 
 export default function Home() {
   return (
