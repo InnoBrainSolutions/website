@@ -8,6 +8,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ParticleField from "@/components/effects/ParticleField";
 import LazyBackgroundVideo from "@/components/effects/LazyBackgroundVideo";
+import { CLOUDINARY_VIDEOS } from "@/config/media";
 
 interface ComingSoonPageProps {
   category: string;
@@ -44,7 +45,7 @@ export default function ComingSoonPage({
       <main className="relative min-h-screen pt-32 pb-24 flex flex-col justify-between overflow-hidden bg-deep-space">
         {/* Ambient Video & Particles */}
         <LazyBackgroundVideo
-          src="/14492116_1920_1080_30fps.mp4"
+          src={CLOUDINARY_VIDEOS.comingSoonBackground}
           className="opacity-40"
         />
         <ParticleField particleCount={30} />

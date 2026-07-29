@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import MagneticButton from "@/components/ui/MagneticButton";
 import LazyBackgroundVideo from "@/components/effects/LazyBackgroundVideo";
+import { CLOUDINARY_VIDEOS } from "@/config/media";
 
 const HeroCanvas = dynamic(() => import("@/components/three/HeroCanvas"), {
   ssr: false,
@@ -18,7 +19,7 @@ export default function HeroSection() {
     >
       {/* Layer 1: Atmospheric Background Video */}
       <LazyBackgroundVideo
-        src="/12421439_3840_2160_30fps.mp4"
+        src={CLOUDINARY_VIDEOS.heroBackground}
         className="opacity-50"
       />
 

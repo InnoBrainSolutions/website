@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import MagneticButton from "@/components/ui/MagneticButton";
 import LazyBackgroundVideo from "@/components/effects/LazyBackgroundVideo";
+import { CLOUDINARY_VIDEOS } from "@/config/media";
 
 export default function CTASection() {
   return (
@@ -16,7 +17,7 @@ export default function CTASection() {
 
       {/* Atmospheric video layer */}
       <LazyBackgroundVideo
-        src="/14492116_1920_1080_30fps.mp4"
+        src={CLOUDINARY_VIDEOS.ctaBackground}
         className="opacity-30"
       />
 
