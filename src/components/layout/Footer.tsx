@@ -1,6 +1,6 @@
 "use client";
 
-import { Globe, Share2, Code2, Video, ArrowUpRight } from "lucide-react";
+import { Globe, Share2, Code2, Video, ArrowUpRight, MapPin } from "lucide-react";
 
 const FOOTER_NAV = [
   {
@@ -51,8 +51,8 @@ export default function Footer() {
       <div className="container-custom relative z-10 pt-16 pb-12 lg:pt-20 lg:pb-14">
         {/* Main 4-Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 pb-16 border-b border-white/[0.08]">
-          {/* Brand & Newsletter Column */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* Brand, Address & Newsletter Column */}
+          <div className="lg:col-span-2 space-y-5">
             <div className="flex items-center gap-3">
               <span className="text-2xl font-extrabold tracking-tighter text-white">
                 INNO
@@ -66,6 +66,14 @@ export default function Footer() {
               Engineering intelligence. Building tomorrow. We help enterprises
               architect and scale AI-first systems with speed and security.
             </p>
+
+            {/* Official Business Address */}
+            <div className="flex items-start gap-2.5 text-xs text-white/60 pt-1 font-light max-w-sm">
+              <MapPin className="w-4 h-4 text-teal shrink-0 mt-0.5" />
+              <span>
+                Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010
+              </span>
+            </div>
 
             {/* Newsletter Subscription */}
             <div className="max-w-sm pt-2">
