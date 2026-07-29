@@ -62,12 +62,12 @@ export default function Footer() {
               </span>
             </div>
 
-            <p className="text-white/60 text-xs sm:text-sm leading-relaxed max-w-sm font-light">
+            <p className="text-white/80 text-xs sm:text-sm leading-relaxed max-w-sm font-light">
               A forward-thinking technology company delivering innovative IT solutions and AI-driven services to accelerate digital transformation through intelligent, scalable, and reliable engineering.
             </p>
 
             {/* Official Business Address */}
-            <div className="flex items-start gap-2.5 text-xs text-white/60 pt-1 font-light max-w-sm">
+            <div className="flex items-start gap-2.5 text-xs text-white/80 pt-1 font-light max-w-sm">
               <MapPin className="w-4 h-4 text-teal shrink-0 mt-0.5" />
               <span>
                 Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010

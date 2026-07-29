@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import TechNetwork, { TechNode } from "./OrbitalRing";
+import ViewportCanvas from "./ViewportCanvas";
 import { useAdaptiveQuality } from "@/hooks/useAdaptiveQuality";
 
 export default function TechCanvas({
@@ -13,7 +14,7 @@ export default function TechCanvas({
   const { dpr } = useAdaptiveQuality();
 
   return (
-    <div className="w-full h-[50vh] sm:h-[65vh] lg:h-[85vh]">
+    <ViewportCanvas className="w-full h-[50vh] sm:h-[65vh] lg:h-[85vh]">
       <Suspense fallback={null}>
         <Canvas
           camera={{ position: [0, 0, 8.5], fov: 52 }}
@@ -31,6 +32,6 @@ export default function TechCanvas({
           <TechNetwork onSelectNode={onSelectNode} />
         </Canvas>
       </Suspense>
-    </div>
+    </ViewportCanvas>
   );
 }
