@@ -30,9 +30,25 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["three"],
+  experimental: {
+    optimizePackageImports: [
+      "lucide-react",
+      "@react-three/drei",
+      "@react-three/fiber",
+      "framer-motion",
+      "three",
+      "gsap",
+    ],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 31536000,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
