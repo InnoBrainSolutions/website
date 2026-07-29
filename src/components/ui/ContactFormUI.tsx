@@ -44,16 +44,8 @@ const CAPABILITY_SERVICES = [
   },
 ];
 
-const BUDGET_RANGES = [
-  "< $10,000",
-  "$10k - $30k",
-  "$30k - $75k",
-  "$75k+",
-];
-
 export default function ContactFormUI() {
   const [selectedService, setSelectedService] = useState("Artificial Intelligence");
-  const [selectedBudget, setSelectedBudget] = useState("$10k - $30k");
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -312,36 +304,10 @@ export default function ContactFormUI() {
                   </div>
                 </div>
 
-                {/* Budget Range Pills */}
-                <div>
-                  <label className="text-teal text-xs font-mono font-semibold uppercase tracking-wider block mb-2.5">
-                    02. Estimated Budget Range
-                  </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                    {BUDGET_RANGES.map((b) => {
-                      const isSelected = selectedBudget === b;
-                      return (
-                        <button
-                          type="button"
-                          key={b}
-                          onClick={() => setSelectedBudget(b)}
-                          className={`py-2.5 px-3 rounded-2xl text-xs font-medium border text-center transition-all duration-300 cursor-pointer ${
-                            isSelected
-                              ? "bg-teal/20 text-white border-teal shadow-[0_0_15px_rgba(20,184,166,0.3)]"
-                              : "bg-white/[0.02] text-white/40 border-white/5 hover:border-white/20 hover:text-white/80"
-                          }`}
-                        >
-                          {b}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
                 {/* Message Field */}
                 <div>
-                  <label htmlFor="message" className="text-white/60 text-xs font-mono uppercase tracking-wider block mb-2">
-                    03. Project Overview *
+                  <label htmlFor="message" className="text-teal text-xs font-mono font-semibold uppercase tracking-wider block mb-2">
+                    02. Project Overview *
                   </label>
                   <textarea
                     id="message"
