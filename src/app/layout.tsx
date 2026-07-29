@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | InnoBrain IT & AI Services",
   },
   description:
-    "InnoBrain IT & AI Services Private Limited — Premier Computer Support and Services in Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010. Specializing in AI Solutions, Enterprise Software Engineering, Cloud Architecture, Cybersecurity & IT Consulting.",
+    "INNOBRAIN IT & AI Services Private Limited is a forward-thinking technology company delivering innovative IT solutions and AI-driven services in Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010. Accelerating digital transformation through intelligent, scalable, and reliable technology solutions.",
   keywords: [
     "InnoBrain IT & AI Services Private Limited",
     "Computer support and services in Indore",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     "Cloud Services Madhya Pradesh",
     "Enterprise IT Support Indore",
     "Cyber Security Indore",
-    "Machine Learning Development India",
+    "Digital Transformation Solutions India",
     "InnoBrain",
     "InnoBrain Indore",
   ],
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title:
       "InnoBrain IT & AI Services Private Limited | Computer Support & Services in Indore, MP",
     description:
-      "Premier Computer Support & Services in Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010. Engineering intelligence, software development, cloud infrastructure & enterprise AI solutions.",
+      "A forward-thinking technology company delivering innovative IT solutions and AI-driven services in Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010.",
     images: [
       {
         url: "/og-image.png",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     title:
       "InnoBrain IT & AI Services Private Limited | Computer Support & Services in Indore",
     description:
-      "Computer support and services in Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010. Engineering intelligence.",
+      "Delivering innovative IT solutions and AI-driven services in Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -109,7 +109,7 @@ export default function RootLayout({
         logo: "https://innobrain.in/logo.png",
         image: "https://innobrain.in/og-image.png",
         description:
-          "Premier Computer support and services in Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010. Specializing in Artificial Intelligence solutions, Enterprise Software Engineering, Cloud Architecture, Cybersecurity, and IT Infrastructure Support.",
+          "INNOBRAIN IT & AI Services Private Limited is a forward-thinking technology company delivering innovative IT solutions and AI-driven services in Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010. Our mission is to help businesses accelerate digital transformation through intelligent, scalable, and reliable technology solutions that drive growth, efficiency, and innovation.",
         category: "Computer support and services",
         address: {
           "@type": "PostalAddress",

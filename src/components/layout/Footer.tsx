@@ -62,9 +62,8 @@ export default function Footer() {
               </span>
             </div>
 
-            <p className="text-white/60 text-sm leading-relaxed max-w-sm font-light">
-              Engineering intelligence. Building tomorrow. We help enterprises
-              architect and scale AI-first systems with speed and security.
+            <p className="text-white/60 text-xs sm:text-sm leading-relaxed max-w-sm font-light">
+              A forward-thinking technology company delivering innovative IT solutions and AI-driven services to accelerate digital transformation through intelligent, scalable, and reliable engineering.
             </p>
 
             {/* Official Business Address */}
