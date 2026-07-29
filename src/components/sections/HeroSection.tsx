@@ -52,7 +52,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="block text-[clamp(3.5rem,12vw,12rem)] font-extrabold tracking-[-0.06em] text-white leading-[0.85] drop-shadow-[0_20px_60px_rgba(0,0,0,0.9)]">
+          <span className="block text-[clamp(2.5rem,10vw,12rem)] font-extrabold tracking-[-0.06em] text-white leading-[0.88] drop-shadow-[0_20px_60px_rgba(0,0,0,0.9)]">
             INNO
             <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent">
               BRAIN

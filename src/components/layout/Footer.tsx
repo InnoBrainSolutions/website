@@ -49,8 +49,8 @@ export default function Footer() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal/30 to-transparent" />
 
       <div className="container-custom relative z-10 pt-16 pb-12 lg:pt-20 lg:pb-14">
-        {/* Main 4-Column Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 pb-16 border-b border-white/[0.08]">
+        {/* Main 5-Column Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-16 border-b border-white/[0.08]">
           {/* Brand, Address & Newsletter Column */}
           <div className="lg:col-span-2 space-y-5">
             <div className="flex items-center gap-3">

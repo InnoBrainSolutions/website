@@ -173,7 +173,7 @@ export default function CaseStudiesSection() {
           </p>
 
           {/* Industry Pills Indicator */}
-          <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar gap-2.5 pb-2 sm:pb-0">
             {CASE_STUDIES.map((study, i) => {
               const Icon = study.icon;
               const isActive = i === activeIndex;

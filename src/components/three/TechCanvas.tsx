@@ -13,7 +13,7 @@ export default function TechCanvas({
   const { dpr } = useAdaptiveQuality();
 
   return (
-    <div className="w-full h-[75vh] lg:h-[85vh]">
+    <div className="w-full h-[50vh] sm:h-[65vh] lg:h-[85vh]">
       <Suspense fallback={null}>
         <Canvas
           camera={{ position: [0, 0, 8.5], fov: 52 }}

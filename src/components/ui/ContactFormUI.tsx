@@ -181,7 +181,7 @@ export default function ContactFormUI() {
 
         {/* RIGHT COLUMN: Interactive Form Stage (7 / 12 Cols) */}
         <div className="lg:col-span-7">
-          <div className="rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/[0.08] hover:border-white/20 backdrop-blur-xl p-8 sm:p-10 lg:p-12 shadow-[0_25px_70px_rgba(0,0,0,0.6)] relative overflow-hidden transition-colors duration-300">
+          <div className="rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/[0.08] hover:border-white/20 backdrop-blur-xl p-5 sm:p-8 lg:p-12 shadow-[0_25px_70px_rgba(0,0,0,0.6)] relative overflow-hidden transition-colors duration-300">
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
