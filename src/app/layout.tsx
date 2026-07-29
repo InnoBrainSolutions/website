@@ -23,9 +23,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://innobrain.in"),
+  metadataBase: new URL("https://innobrainitservices.com"),
   alternates: {
-    canonical: "https://innobrain.in",
+    canonical: "https://innobrainitservices.com",
   },
   title: {
     default:
@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     "INNOBRAIN IT & AI Services Private Limited is a forward-thinking technology company delivering innovative IT solutions and AI-driven services in Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010. Accelerating digital transformation through intelligent, scalable, and reliable technology solutions.",
   keywords: [
     "InnoBrain IT & AI Services Private Limited",
+    "innobrainitservices.com",
     "Computer support and services in Indore",
     "Computer support and services in Madhya Pradesh",
     "Vijay Nagar Scheme No 54 Indore IT Company",
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://innobrain.in",
+    url: "https://innobrainitservices.com",
     siteName: "InnoBrain IT & AI Services Private Limited",
     title:
       "InnoBrain IT & AI Services Private Limited | Computer Support & Services in Indore, MP",
@@ -102,12 +103,12 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": ["LocalBusiness", "ProfessionalService"],
-        "@id": "https://innobrain.in/#organization",
+        "@id": "https://innobrainitservices.com/#organization",
         name: "InnoBrain IT & AI Services Private Limited",
         legalName: "InnoBrain IT & AI Services Private Limited",
-        url: "https://innobrain.in",
-        logo: "https://innobrain.in/logo.png",
-        image: "https://innobrain.in/og-image.png",
+        url: "https://innobrainitservices.com",
+        logo: "https://innobrainitservices.com/logo.png",
+        image: "https://innobrainitservices.com/og-image.png",
         description:
           "INNOBRAIN IT & AI Services Private Limited is a forward-thinking technology company delivering innovative IT solutions and AI-driven services in Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010. Our mission is to help businesses accelerate digital transformation through intelligent, scalable, and reliable technology solutions that drive growth, efficiency, and innovation.",
         category: "Computer support and services",
