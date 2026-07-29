@@ -30,9 +30,6 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["three"],
-  experimental: {
-    optimizePackageImports: ["lucide-react", "framer-motion", "@react-three/drei", "three"],
-  },
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60,
