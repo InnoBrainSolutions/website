@@ -38,7 +38,7 @@ export default function TechStackSection() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
             Powered by the tools that
             <br />
-            <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent inline-block pb-1.5">
               power the future.
             </span>
           </h2>

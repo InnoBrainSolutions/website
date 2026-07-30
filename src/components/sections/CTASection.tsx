@@ -58,7 +58,7 @@ export default function CTASection() {
 
         {/* Massive viewport-filling headline */}
         <motion.h2
-          className="text-[clamp(2.5rem,8vw,8rem)] font-extrabold tracking-[-0.05em] leading-[0.85] text-white mb-10 drop-shadow-[0_20px_60px_rgba(0,0,0,0.9)]"
+          className="text-[clamp(2.5rem,8vw,8rem)] font-extrabold tracking-[-0.05em] leading-[0.95] text-white mb-10 drop-shadow-[0_20px_60px_rgba(0,0,0,0.9)]"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -66,7 +66,7 @@ export default function CTASection() {
         >
           Ready to build
           <br />
-          <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent inline-block pb-2">
             the future?
           </span>
         </motion.h2>

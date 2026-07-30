@@ -42,10 +42,10 @@ export default function ManifestoSection() {
           <span className="text-teal text-xs font-mono font-semibold tracking-[0.3em] uppercase block mb-8">
             THE QUESTION
           </span>
-          <h2 className="text-[clamp(3rem,8vw,8rem)] font-extrabold tracking-[-0.05em] leading-[0.85] text-white">
+          <h2 className="text-[clamp(3rem,8vw,8rem)] font-extrabold tracking-[-0.05em] leading-[0.95] text-white">
             Why
             <br />
-            <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent inline-block pb-2">
               us?
             </span>
           </h2>

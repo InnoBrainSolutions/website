@@ -160,10 +160,10 @@ export default function CaseStudiesSection() {
             Proven Results
           </span>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white tracking-tight leading-[1.0] mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white tracking-tight leading-tight mb-6">
             Transformations
             <br />
-            <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent inline-block pb-1.5">
               that speak.
             </span>
           </h2>
@@ -173,25 +173,33 @@ export default function CaseStudiesSection() {
           </p>
 
           {/* Industry Pills Indicator */}
-          <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar gap-2.5 pb-2 sm:pb-0">
+          <div className="flex flex-wrap items-center gap-2.5 p-1.5 -m-1.5">
             {CASE_STUDIES.map((study, i) => {
               const Icon = study.icon;
               const isActive = i === activeIndex;
               return (
-                <div
+                <button
                   key={study.industry}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium border transition-all duration-500 ${
+                  type="button"
+                  onClick={() => setActiveIndex(i)}
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium border transition-all duration-300 ${
                     isActive
-                      ? "bg-white/10 text-white border-white/40 shadow-lg scale-105"
-                      : "bg-white/[0.02] text-white/40 border-white/5"
+                      ? "bg-white/10 text-white shadow-md"
+                      : "bg-white/[0.02] text-white/40 border-white/10 hover:text-white/70 hover:bg-white/[0.05]"
                   }`}
+                  style={{
+                    borderColor: isActive ? study.color : undefined,
+                    boxShadow: isActive
+                      ? `0 0 16px -2px ${study.glowColor}`
+                      : undefined,
+                  }}
                 >
                   <Icon
-                    className="w-3.5 h-3.5"
+                    className="w-3.5 h-3.5 transition-colors duration-300"
                     style={{ color: isActive ? study.color : "currentColor" }}
                   />
                   <span>{study.industry}</span>
-                </div>
+                </button>
               );
             })}
           </div>
