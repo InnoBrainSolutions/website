@@ -4,23 +4,25 @@ import Footer from "@/components/layout/Footer";
 import ContactFormUI from "@/components/ui/ContactFormUI";
 
 export const metadata: Metadata = {
-  title: "Contact InnoBrain IT & AI Services | Vijay Nagar, Indore",
+  title: "Contact Inno Brains | Start Your Engineering Project Today",
   description:
-    "Get in touch with InnoBrain IT & AI Services Private Limited. Located at Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010. Start your AI or software engineering project.",
+    "Ready to scale your software architecture or deploy enterprise AI? Partner with Inno Brains. Request a technical consultation today.",
   alternates: {
-    canonical: "https://innobrain.in/contact",
+    canonical: "https://innobrainitservices.com/contact",
   },
   keywords: [
-    "Contact InnoBrain",
-    "InnoBrain Indore Address",
-    "Vijay Nagar Scheme No 54 IT Company",
-    "Computer support and services Indore contact",
+    "Contact Inno Brains",
+    "Hire AI Developers",
+    "Hire Software Engineers",
+    "Technical Consultation",
+    "IT Company Indore",
+    "Inno Brains Address",
   ],
   openGraph: {
-    title: "Contact InnoBrain IT & AI Services | Vijay Nagar, Indore",
+    title: "Contact Inno Brains | Start Your Engineering Project Today",
     description:
-      "Official Office: Vijay Nagar, Scheme No 54, Indore, Madhya Pradesh 452010. Schedule an AI and software strategy consultation.",
-    url: "https://innobrain.in/contact",
+      "Partner with Inno Brains. Schedule an executive AI and custom software engineering consultation today.",
+    url: "https://innobrainitservices.com/contact",
   },
 };
 

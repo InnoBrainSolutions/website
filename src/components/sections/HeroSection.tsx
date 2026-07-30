@@ -61,26 +61,25 @@ export default function HeroSection() {
           </span>
         </motion.h1>
 
-        {/* Subtitle — cinematic, not descriptive */}
+        {/* Subtitle — executive value prop */}
         <motion.p
-          className="text-lg sm:text-xl md:text-2xl font-light text-white/60 tracking-wide mb-14 max-w-xl mx-auto"
+          className="text-lg sm:text-xl md:text-2xl font-light text-white/70 tracking-wide mb-14 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.6 }}
         >
-          Engineering intelligence.
-          <br />
-          Building tomorrow.
+          Architecting production-grade AI systems, custom SaaS applications,
+          <br className="hidden sm:inline" /> and enterprise cloud platforms built for scale.
         </motion.p>
 
-        {/* Single CTA — one clear action */}
+        {/* Single CTA — clear conversion path */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 2.0, ease: [0.16, 1, 0.3, 1] }}
         >
-          <MagneticButton variant="primary" href="#story">
-            Explore Our Vision
+          <MagneticButton variant="primary" href="/contact">
+            Start Your Project →
           </MagneticButton>
         </motion.div>
       </div>

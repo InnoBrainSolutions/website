@@ -90,7 +90,7 @@ export default function CTASection() {
           transition={{ delay: 0.6, duration: 0.8 }}
         >
           <MagneticButton variant="primary" href="/contact">
-            Start Your Project
+            Start Your Project →
           </MagneticButton>
         </motion.div>
       </div>

@@ -2,24 +2,25 @@ import type { Metadata } from "next";
 import ComingSoonPage from "@/components/ui/ComingSoonPage";
 
 export const metadata: Metadata = {
-  title: "Intelligent Process & RPA Automation | InnoBrain Solutions",
+  title: "Intelligent Workflow Automation & Cloud DevOps Services | Inno Brains",
   description:
-    "Robotic process automation (RPA), autonomous agent orchestration, workflow efficiency, and seamless enterprise API automation systems.",
+    "Eliminate manual operational bottlenecks with custom n8n automation, serverless cloud pipelines, and enterprise DevOps engineering.",
   alternates: {
-    canonical: "https://innobrain.in/solutions/automation",
+    canonical: "https://innobrainitservices.com/solutions/automation",
   },
   keywords: [
-    "RPA Workflow Automation",
+    "Workflow Automation Services",
+    "n8n Automation Engineering",
     "Intelligent Process Automation",
     "Autonomous Business Agents",
-    "Enterprise API Orchestration",
-    "InnoBrain Automation",
+    "Cloud DevOps Services",
+    "Inno Brains Automation",
   ],
   openGraph: {
-    title: "Intelligent Process & RPA Automation | InnoBrain",
+    title: "Intelligent Workflow Automation & Cloud DevOps Services | Inno Brains",
     description:
-      "Robotic process automation (RPA), autonomous agent orchestration, workflow efficiency, and enterprise API automation systems.",
-    url: "https://innobrain.in/solutions/automation",
+      "Eliminate manual operational bottlenecks with custom n8n automation, serverless cloud pipelines, and enterprise DevOps engineering.",
+    url: "https://innobrainitservices.com/solutions/automation",
   },
 };
 

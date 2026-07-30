@@ -2,25 +2,25 @@ import type { Metadata } from "next";
 import ComingSoonPage from "@/components/ui/ComingSoonPage";
 
 export const metadata: Metadata = {
-  title: "Enterprise AI Development & Custom LLM Integration | InnoBrain Solutions",
+  title: "Custom AI Development & Generative AI Solutions | Inno Brains",
   description:
-    "Architecting custom generative AI models, agentic workflows, RAG pipelines, computer vision, and NLP solutions for enterprise deployments.",
+    "Deploy production-grade RAG pipelines, fine-tuned LLMs, and autonomous AI agents designed for enterprise data security and sub-second performance.",
   alternates: {
-    canonical: "https://innobrain.in/solutions/ai",
+    canonical: "https://innobrainitservices.com/solutions/ai",
   },
   keywords: [
     "Enterprise AI Development",
     "Custom LLM Fine-Tuning",
     "Agentic AI Workflows",
     "RAG Pipelines",
-    "Artificial Intelligence Indore",
-    "InnoBrain AI Solutions",
+    "Generative AI Company",
+    "Inno Brains AI Solutions",
   ],
   openGraph: {
-    title: "Enterprise AI Development & Custom LLM Integration | InnoBrain",
+    title: "Custom AI Development & Generative AI Solutions | Inno Brains",
     description:
-      "Architecting custom generative AI models, agentic workflows, RAG pipelines, computer vision, and NLP solutions.",
-    url: "https://innobrain.in/solutions/ai",
+      "Production-grade RAG pipelines, fine-tuned LLMs, and autonomous AI agents designed for enterprise security and performance.",
+    url: "https://innobrainitservices.com/solutions/ai",
   },
 };
 

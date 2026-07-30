@@ -40,7 +40,7 @@ export default function ManifestoSection() {
         {/* Left: Massive provocative question */}
         <motion.div style={{ y: leftY }} className="lg:sticky lg:top-1/4">
           <span className="text-teal text-xs font-mono font-semibold tracking-[0.3em] uppercase block mb-8">
-            THE QUESTION
+            THE INNO BRAIN DIFFERENCE
           </span>
           <h2 className="text-[clamp(3rem,8vw,8rem)] font-extrabold tracking-[-0.05em] leading-[0.95] text-white">
             Why

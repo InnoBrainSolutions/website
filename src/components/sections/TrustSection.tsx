@@ -64,7 +64,7 @@ export default function TrustSection() {
           <Quote className="w-10 h-10 text-teal/30 mx-auto mb-8" />
 
           <blockquote className="text-xl sm:text-2xl md:text-3xl font-light text-white/80 leading-relaxed mb-10 italic">
-            &ldquo;InnoBrain didn&apos;t just build our AI platform — they
+            &ldquo;Inno Brains didn&apos;t just build our AI platform — they
             fundamentally changed how we think about engineering. Our processing
             pipeline went from 72 hours to real-time. That&apos;s not incremental
             improvement. That&apos;s transformation.&rdquo;

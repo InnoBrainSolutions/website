@@ -2,25 +2,25 @@ import type { Metadata } from "next";
 import ComingSoonPage from "@/components/ui/ComingSoonPage";
 
 export const metadata: Metadata = {
-  title: "Enterprise Software Engineering & Full-Stack Apps | InnoBrain Solutions",
+  title: "Custom Enterprise Software & Web Engineering | Inno Brains",
   description:
-    "Next.js, React, Flutter, Python, and microservices software engineering crafted for high scalability, security, and performance benchmarks.",
+    "Scalable Next.js web applications, multi-tenant SaaS platforms, and microservices built for zero-downtime performance and high-concurrency workloads.",
   alternates: {
-    canonical: "https://innobrain.in/solutions/software",
+    canonical: "https://innobrainitservices.com/solutions/software",
   },
   keywords: [
     "Enterprise Software Engineering",
     "Full-Stack Web Development",
-    "Cross-Platform Mobile Apps",
+    "SaaS Application Architecture",
+    "Next.js Development Company",
     "Microservices Architecture",
-    "Software Development Indore",
-    "InnoBrain Software Solutions",
+    "Inno Brains Software Solutions",
   ],
   openGraph: {
-    title: "Enterprise Software Engineering & Full-Stack Apps | InnoBrain",
+    title: "Custom Enterprise Software & Web Engineering | Inno Brains",
     description:
-      "Next.js, React, Flutter, Python, and microservices software engineering crafted for high scalability, security, and performance.",
-    url: "https://innobrain.in/solutions/software",
+      "Scalable Next.js web applications, multi-tenant SaaS platforms, and microservices built for zero-downtime performance.",
+    url: "https://innobrainitservices.com/solutions/software",
   },
 };
 
