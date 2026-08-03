@@ -28,6 +28,13 @@ const SMOKE_COLORS = [
   { r: 99, g: 102, b: 241 },  // Electric Indigo #6366f1
 ];
 
+const EMBER_COLORS = [
+  { r: 255, g: 255, b: 255 }, // Crisp Pure White
+  { r: 56, g: 189, b: 248 },  // Electric Sky Blue
+  { r: 6, g: 182, b: 212 },   // Cyan Sparkle
+  { r: 45, g: 212, b: 191 },  // Bright Turquoise
+];
+
 export default function SmokeyCursor() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -68,42 +75,50 @@ export default function SmokeyCursor() {
     const spawnSmoke = (x: number, y: number, vx: number, vy: number, isHover: boolean, isAmbient = false) => {
       const color = SMOKE_COLORS[Math.floor(Math.random() * SMOKE_COLORS.length)];
       const spreadAngle = Math.random() * Math.PI * 2;
-      const spreadDist = Math.random() * (isHover ? 14 : 8);
+      const spreadDist = Math.random() * (isHover ? 16 : 8);
 
+      // Base fluid smoke particle
       particles.push({
         x: x + Math.cos(spreadAngle) * spreadDist,
         y: y + Math.sin(spreadAngle) * spreadDist,
-        vx: Math.cos(spreadAngle) * (isAmbient ? 0.4 : 0.7) + vx * 0.05,
-        vy: Math.sin(spreadAngle) * (isAmbient ? 0.4 : 0.7) + vy * 0.05 - 0.3, // Gentle buoyancy
+        vx: Math.cos(spreadAngle) * (isAmbient ? 0.4 : 0.8) + vx * 0.05,
+        vy: Math.sin(spreadAngle) * (isAmbient ? 0.4 : 0.8) + vy * 0.05 - 0.35, // Thermal buoyancy
         radius: isAmbient ? Math.random() * 4 + 4 : Math.random() * 6 + 5,
-        maxRadius: Math.random() * (isHover ? 42 : 28) + 16,
-        alpha: isHover ? 0.42 : isAmbient ? 0.22 : 0.32,
+        maxRadius: Math.random() * (isHover ? 44 : 28) + 18,
+        alpha: isHover ? 0.45 : isAmbient ? 0.22 : 0.32,
         life: 0,
-        maxLife: Math.floor(Math.random() * 25) + 30,
+        maxLife: Math.floor(Math.random() * 25) + 32,
         color,
         angle: Math.random() * Math.PI * 2,
         spin: (Math.random() - 0.5) * 0.03,
         turbulence: (Math.random() - 0.5) * 0.35,
       });
 
-      // Ember spark on hover or fast movement
-      if (isHover || (!isAmbient && Math.hypot(vx, vy) > 18 && Math.random() > 0.5)) {
-        particles.push({
-          x: x + (Math.random() - 0.5) * 6,
-          y: y + (Math.random() - 0.5) * 6,
-          vx: (Math.random() - 0.5) * 2.2 + vx * 0.03,
-          vy: (Math.random() - 0.5) * 2.2 + vy * 0.03 - 0.5,
-          radius: Math.random() * 2 + 1,
-          maxRadius: Math.random() * 2.5 + 1.5,
-          alpha: 0.85,
-          life: 0,
-          maxLife: Math.floor(Math.random() * 12) + 16,
-          color: { r: 255, g: 255, b: 255 },
-          angle: 0,
-          spin: 0,
-          turbulence: 0,
-          isEmber: true,
-        });
+      // Sparkle Ember Burst when hovering ANY interactive element
+      if (isHover || (!isAmbient && Math.hypot(vx, vy) > 16 && Math.random() > 0.4)) {
+        const emberCount = isHover ? (isAmbient ? 1 : 2) : 1;
+        for (let e = 0; e < emberCount; e++) {
+          const embColor = EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)];
+          const embAngle = Math.random() * Math.PI * 2;
+          const embSpeed = Math.random() * 2.6 + 0.8;
+
+          particles.push({
+            x: x + (Math.random() - 0.5) * 12,
+            y: y + (Math.random() - 0.5) * 12,
+            vx: Math.cos(embAngle) * embSpeed + vx * 0.04,
+            vy: Math.sin(embAngle) * embSpeed + vy * 0.04 - 0.7,
+            radius: Math.random() * 2.2 + 1.2,
+            maxRadius: Math.random() * 3 + 2,
+            alpha: 0.95,
+            life: 0,
+            maxLife: Math.floor(Math.random() * 16) + 20,
+            color: embColor,
+            angle: 0,
+            spin: 0,
+            turbulence: 0,
+            isEmber: true,
+          });
+        }
       }
     };
 
@@ -122,13 +137,25 @@ export default function SmokeyCursor() {
       mouseX = cx;
       mouseY = cy;
 
-      // Check hover state on interactive elements
+      // Comprehensive Hover Detection for ALL interactive elements across the site
       if (targetEl) {
-        isHovered = !!targetEl.closest("a, button, [role='button'], input, textarea, select, .group, [data-hover]");
+        const isInteractiveSelector = !!targetEl.closest(
+          "a, button, [role='button'], input, textarea, select, label, summary, nav, .group, .cursor-pointer, [data-hover]"
+        );
+
+        let hasPointerCursor = false;
+        try {
+          const style = window.getComputedStyle(targetEl);
+          hasPointerCursor = style.cursor === "pointer" || style.cursor === "grab";
+        } catch {
+          // ignore detached element edge case
+        }
+
+        isHovered = isInteractiveSelector || hasPointerCursor;
       }
 
       // Spawn movement particles
-      const count = isHovered ? Math.min(4, Math.max(1, Math.floor(speed / 4))) : Math.min(3, Math.max(1, Math.floor(speed / 6)));
+      const count = isHovered ? Math.min(5, Math.max(2, Math.floor(speed / 4))) : Math.min(3, Math.max(1, Math.floor(speed / 6)));
       for (let i = 0; i < count; i++) {
         spawnSmoke(mouseX, mouseY, speedX, speedY, isHovered, false);
       }
@@ -160,7 +187,7 @@ export default function SmokeyCursor() {
       frameCount++;
       ctx.clearRect(0, 0, w, h);
 
-      // Continuous ambient emission even when mouse is still
+      // Continuous ambient emission when mouse is inside window
       if (isMouseInside && mouseX > 0 && mouseY > 0 && frameCount % 3 === 0) {
         spawnSmoke(mouseX, mouseY, speedX * 0.2, speedY * 0.2, isHovered, true);
         speedX *= 0.8;
@@ -189,7 +216,7 @@ export default function SmokeyCursor() {
         p.angle += p.spin;
 
         if (p.isEmber) {
-          // Sharp ember spark rendering
+          // Sharp glowing ember spark rendering
           const fade = 1 - progress;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius * fade, 0, Math.PI * 2);
