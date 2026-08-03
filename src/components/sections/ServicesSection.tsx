@@ -114,8 +114,8 @@ export default function ServicesSection() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal/20 to-transparent z-10" />
 
       {/* Fixed Header — stays visible during horizontal scroll */}
-      <div className="absolute top-12 left-0 z-20 px-8 lg:px-16">
-        <span className="text-teal text-xs font-mono font-semibold tracking-[0.3em] uppercase block mb-3">
+      <div className="absolute top-28 lg:top-32 left-0 z-20 px-8 lg:px-16">
+        <span className="text-teal text-xs font-mono font-semibold tracking-[0.3em] uppercase block mb-2">
           What We Build
         </span>
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight">
@@ -126,7 +126,7 @@ export default function ServicesSection() {
       {/* Horizontal scroll track */}
       <div
         ref={trackRef}
-        className="flex items-center h-screen gap-8 px-8 lg:px-16 pt-32 will-change-transform"
+        className="flex items-center h-screen gap-8 px-8 lg:px-16 pt-48 lg:pt-56 will-change-transform"
         style={{ width: `${SERVICES.length * 55 + 20}vw` }}
       >
         {SERVICES.map((service, i) => {
@@ -134,7 +134,7 @@ export default function ServicesSection() {
           return (
             <motion.div
               key={service.title}
-              className="group relative flex-shrink-0 w-[80vw] sm:w-[60vw] md:w-[45vw] lg:w-[40vw] h-[65vh] rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/[0.08] hover:border-white/20 backdrop-blur-xl overflow-hidden transition-colors duration-300 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+              className="group relative flex-shrink-0 w-[80vw] sm:w-[60vw] md:w-[45vw] lg:w-[40vw] h-[55vh] sm:h-[58vh] lg:h-[60vh] rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/[0.08] hover:border-white/20 backdrop-blur-xl overflow-hidden transition-colors duration-300 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}

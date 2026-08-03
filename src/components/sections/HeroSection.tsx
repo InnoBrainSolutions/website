@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import MagneticButton from "@/components/ui/MagneticButton";
@@ -46,15 +47,26 @@ export default function HeroSection() {
           </span>
         </motion.div>
 
-        {/* THE title — monumental, cinematic */}
+        {/* THE title — monumental, cinematic with custom brain logo for "O" */}
         <motion.h1
-          className="mb-8"
+          className="mb-8 select-none"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="block text-[clamp(2.5rem,10vw,12rem)] font-extrabold tracking-[-0.06em] text-white leading-[0.88] drop-shadow-[0_20px_60px_rgba(0,0,0,0.9)]">
-            INNO
+          <span className="inline-flex items-center justify-center text-[clamp(2.5rem,10.5vw,12rem)] font-extrabold tracking-[-0.05em] leading-[0.88] drop-shadow-[0_20px_60px_rgba(0,0,0,0.9)]">
+            <span className="text-white">INN</span>
+            <span className="relative inline-flex items-center justify-center mx-[0.02em] w-[0.82em] h-[0.82em] align-baseline">
+              <Image
+                src="/logo-icon.png"
+                alt="InnoBrain Logo Mark"
+                width={240}
+                height={240}
+                className="w-full h-full object-contain drop-shadow-[0_0_40px_rgba(20,184,166,0.95)] transition-transform duration-500 hover:scale-110"
+                priority
+                unoptimized
+              />
+            </span>
             <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent">
               BRAIN
             </span>

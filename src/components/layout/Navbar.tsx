@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ChevronDown,
   Brain,
@@ -207,13 +208,17 @@ export default function Navbar() {
         <div className="container-custom flex items-center justify-between">
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-3 group" aria-label="InnoBrain Home">
-            <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-teal to-electric-blue flex items-center justify-center overflow-hidden shadow-[0_0_15px_rgba(20,184,166,0.3)]">
-              <span className="text-white font-extrabold text-sm tracking-tighter">iB</span>
-              <div className="absolute inset-0 bg-gradient-to-br from-transparent to-white/20 group-hover:to-white/30 transition-all duration-300" />
+            <div className="relative h-10 w-auto flex items-center">
+              <Image
+                src="/logo-light.png"
+                alt="InnoBrain IT & AI Services"
+                width={400}
+                height={90}
+                className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03] drop-shadow-[0_0_15px_rgba(56,189,248,0.2)]"
+                priority
+                unoptimized
+              />
             </div>
-            <span className="text-white font-extrabold text-lg tracking-tight hidden sm:block">
-              INNOBRAIN
-            </span>
           </Link>
 
           {/* Desktop Nav Items */}

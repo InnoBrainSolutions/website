@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { Globe, Share2, Code2, Video, ArrowUpRight, MapPin } from "lucide-react";
 
 const FOOTER_NAV = [
@@ -54,12 +56,16 @@ export default function Footer() {
           {/* Brand, Address & Newsletter Column */}
           <div className="lg:col-span-2 space-y-5">
             <div className="flex items-center gap-3">
-              <span className="text-2xl font-extrabold tracking-tighter text-white">
-                INNO
-                <span className="bg-gradient-to-r from-teal via-cyan to-electric-blue bg-clip-text text-transparent">
-                  BRAIN
-                </span>
-              </span>
+              <Link href="/" className="inline-block group" aria-label="InnoBrain Home">
+                <Image
+                  src="/logo-light.png"
+                  alt="InnoBrain IT & AI Services Logo"
+                  width={440}
+                  height={100}
+                  className="h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+                  unoptimized
+                />
+              </Link>
             </div>
 
             <p className="text-white/80 text-xs sm:text-sm leading-relaxed max-w-sm font-light">
