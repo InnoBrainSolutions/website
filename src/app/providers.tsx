@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import "@/lib/gsap-config";
+import SmokeyCursor from "@/components/effects/SmokeyCursor";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -36,5 +37,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <>
+      <SmokeyCursor />
+      {children}
+    </>
+  );
 }
