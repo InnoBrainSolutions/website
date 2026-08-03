@@ -35,6 +35,8 @@ const EMBER_COLORS = [
   { r: 45, g: 212, b: 191 },  // Bright Turquoise
 ];
 
+const MAX_PARTICLES = 70; // Hard cap for 120fps lock & zero GC pressure
+
 export default function SmokeyCursor() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -73,45 +75,50 @@ export default function SmokeyCursor() {
     };
 
     const spawnSmoke = (x: number, y: number, vx: number, vy: number, isHover: boolean, isAmbient = false) => {
+      // Prevent particle overflow under rapid motion
+      if (particles.length >= MAX_PARTICLES) {
+        particles.splice(0, 2);
+      }
+
       const color = SMOKE_COLORS[Math.floor(Math.random() * SMOKE_COLORS.length)];
       const spreadAngle = Math.random() * Math.PI * 2;
-      const spreadDist = Math.random() * (isHover ? 16 : 8);
+      const spreadDist = Math.random() * (isHover ? 14 : 7);
 
       // Base fluid smoke particle
       particles.push({
         x: x + Math.cos(spreadAngle) * spreadDist,
         y: y + Math.sin(spreadAngle) * spreadDist,
-        vx: Math.cos(spreadAngle) * (isAmbient ? 0.4 : 0.8) + vx * 0.05,
-        vy: Math.sin(spreadAngle) * (isAmbient ? 0.4 : 0.8) + vy * 0.05 - 0.35, // Thermal buoyancy
-        radius: isAmbient ? Math.random() * 4 + 4 : Math.random() * 6 + 5,
-        maxRadius: Math.random() * (isHover ? 44 : 28) + 18,
-        alpha: isHover ? 0.45 : isAmbient ? 0.22 : 0.32,
+        vx: Math.cos(spreadAngle) * (isAmbient ? 0.35 : 0.75) + vx * 0.04,
+        vy: Math.sin(spreadAngle) * (isAmbient ? 0.35 : 0.75) + vy * 0.04 - 0.35,
+        radius: isAmbient ? Math.random() * 4 + 4 : Math.random() * 5 + 5,
+        maxRadius: Math.random() * (isHover ? 42 : 26) + 16,
+        alpha: isHover ? 0.42 : isAmbient ? 0.20 : 0.30,
         life: 0,
-        maxLife: Math.floor(Math.random() * 25) + 32,
+        maxLife: Math.floor(Math.random() * 22) + 28,
         color,
         angle: Math.random() * Math.PI * 2,
         spin: (Math.random() - 0.5) * 0.03,
-        turbulence: (Math.random() - 0.5) * 0.35,
+        turbulence: (Math.random() - 0.5) * 0.3,
       });
 
-      // Sparkle Ember Burst when hovering ANY interactive element
-      if (isHover || (!isAmbient && Math.hypot(vx, vy) > 16 && Math.random() > 0.4)) {
+      // Sparkle Ember Burst on interactive elements
+      if (isHover || (!isAmbient && Math.hypot(vx, vy) > 18 && Math.random() > 0.5)) {
         const emberCount = isHover ? (isAmbient ? 1 : 2) : 1;
         for (let e = 0; e < emberCount; e++) {
           const embColor = EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)];
           const embAngle = Math.random() * Math.PI * 2;
-          const embSpeed = Math.random() * 2.6 + 0.8;
+          const embSpeed = Math.random() * 2.5 + 0.8;
 
           particles.push({
-            x: x + (Math.random() - 0.5) * 12,
-            y: y + (Math.random() - 0.5) * 12,
-            vx: Math.cos(embAngle) * embSpeed + vx * 0.04,
-            vy: Math.sin(embAngle) * embSpeed + vy * 0.04 - 0.7,
-            radius: Math.random() * 2.2 + 1.2,
-            maxRadius: Math.random() * 3 + 2,
-            alpha: 0.95,
+            x: x + (Math.random() - 0.5) * 10,
+            y: y + (Math.random() - 0.5) * 10,
+            vx: Math.cos(embAngle) * embSpeed + vx * 0.03,
+            vy: Math.sin(embAngle) * embSpeed + vy * 0.03 - 0.6,
+            radius: Math.random() * 2 + 1,
+            maxRadius: Math.random() * 2.5 + 1.5,
+            alpha: 0.9,
             life: 0,
-            maxLife: Math.floor(Math.random() * 16) + 20,
+            maxLife: Math.floor(Math.random() * 14) + 18,
             color: embColor,
             angle: 0,
             spin: 0,
@@ -137,25 +144,26 @@ export default function SmokeyCursor() {
       mouseX = cx;
       mouseY = cy;
 
-      // Comprehensive Hover Detection for ALL interactive elements across the site
+      // Optimized Hover Detection (selector check first, computed style only as fast fallback)
       if (targetEl) {
-        const isInteractiveSelector = !!targetEl.closest(
+        const isInteractive = !!targetEl.closest(
           "a, button, [role='button'], input, textarea, select, label, summary, nav, .group, .cursor-pointer, [data-hover]"
         );
 
-        let hasPointerCursor = false;
-        try {
-          const style = window.getComputedStyle(targetEl);
-          hasPointerCursor = style.cursor === "pointer" || style.cursor === "grab";
-        } catch {
-          // ignore detached element edge case
+        if (isInteractive) {
+          isHovered = true;
+        } else {
+          try {
+            const cursor = window.getComputedStyle(targetEl).cursor;
+            isHovered = cursor === "pointer" || cursor === "grab";
+          } catch {
+            isHovered = false;
+          }
         }
-
-        isHovered = isInteractiveSelector || hasPointerCursor;
       }
 
       // Spawn movement particles
-      const count = isHovered ? Math.min(5, Math.max(2, Math.floor(speed / 4))) : Math.min(3, Math.max(1, Math.floor(speed / 6)));
+      const count = isHovered ? Math.min(4, Math.max(1, Math.floor(speed / 5))) : Math.min(3, Math.max(1, Math.floor(speed / 7)));
       for (let i = 0; i < count; i++) {
         spawnSmoke(mouseX, mouseY, speedX, speedY, isHovered, false);
       }
@@ -216,14 +224,14 @@ export default function SmokeyCursor() {
         p.angle += p.spin;
 
         if (p.isEmber) {
-          // Sharp glowing ember spark rendering
+          // Ember spark rendering
           const fade = 1 - progress;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius * fade, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${p.alpha * fade})`;
           ctx.fill();
         } else {
-          // Organic radial smoke puff rendering
+          // Radial smoke puff rendering
           const rad = p.radius + (p.maxRadius - p.radius) * Math.sin((progress * Math.PI) / 2);
           const alphaFade = progress < 0.15 ? progress / 0.15 : Math.pow(1 - (progress - 0.15) / 0.85, 1.5);
           const alpha = p.alpha * alphaFade;
